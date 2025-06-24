@@ -20,12 +20,12 @@ export const getCurrentUser = async () => {
 };
 
 export const getName = async (userId:string) => {
-    const { data } = await supabase.from("user_info").select('user_name').eq('user_id', userId).single();
+    const { data } = await supabase.from("profiles").select('name').eq('user_id', userId).single();
 
     if (data === null)
         return;
 
-    return data.user_name;
+    return data.name;
 }
 
 export const onAuthStateChange = (callback: (user: User | null) => void) => {
