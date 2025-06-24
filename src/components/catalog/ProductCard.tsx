@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faInfoCircle, faMapMarkerAlt, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faInfoCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import {Link} from "react-router-dom";
 
