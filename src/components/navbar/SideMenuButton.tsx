@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import type {MouseEventHandler} from "react";
 
-const MenuToggleButton = ({ isOpen, onClick } : {isOpen: boolean, onClick: MouseEventHandler<HTMLButtonElement>}) => (
+const SideMenuButton = ({ isOpen, onClick } : {isOpen: boolean, onClick: MouseEventHandler<HTMLButtonElement>}) => (
     <button
         onClick={onClick}
         className="lg:hidden text-gray-800 focus:outline-none"
@@ -12,4 +12,4 @@ const MenuToggleButton = ({ isOpen, onClick } : {isOpen: boolean, onClick: Mouse
     </button>
 );
 
-export default MenuToggleButton;
+export default SideMenuButton;

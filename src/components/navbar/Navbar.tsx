@@ -2,8 +2,8 @@ import Logo from "./Logo.tsx";
 import {useEffect, useState} from "react";
 import Search from "./Search.tsx";
 import NavLinks from "./NavLinks.tsx";
-import MenuToggleButton from "./MenuButton.tsx";
-import {UserMenu} from "./UserMenu.tsx";
+import SideMenuButton from "./SideMenuButton.tsx";
+import UserMenu from "./UserMenu.tsx";
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +33,7 @@ const Header = () => {
 
                     <div className="flex items-center flex-none gap-4">
                         <NavLinks onLinkClick={handleLinkClick} />
-                        <MenuToggleButton
+                        <SideMenuButton
                             isOpen={isMenuOpen}
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         />
