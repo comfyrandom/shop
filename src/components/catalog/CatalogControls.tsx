@@ -1,4 +1,4 @@
-const ProductsControls = ({count} : {count: number}) => {
+const CatalogControls = ({count} : {count: number}) => {
 
     const getCorrectWordForm = (count:number) => {
         const lastDigit = count % 10;
@@ -32,4 +32,4 @@ const ProductsControls = ({count} : {count: number}) => {
     );
 };
 
-export default ProductsControls;
+export default CatalogControls;
