@@ -20,7 +20,6 @@ const ProductCard = ({ product } : ProductCardProps) => {
     return (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col h-full">
 
-            {/* Изображение товара */}
             <div className="relative overflow-hidden">
                 <img
                     src={product.image}
@@ -29,12 +28,9 @@ const ProductCard = ({ product } : ProductCardProps) => {
                 />
             </div>
 
-            {/* Контент карточки */}
             <div className="p-4 flex flex-col flex-grow">
-                {/* Заголовок и цена */}
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{product.title}</h3>
 
-                {/* Блок с крипто-ценой */}
                 <div className="bg-gray-50 rounded-lg p-3 mb-3 flex items-center justify-between">
                     <span className="text-gray-600 font-medium">Цена:</span>
                     <div className="flex items-center">
@@ -43,9 +39,7 @@ const ProductCard = ({ product } : ProductCardProps) => {
                     </div>
                 </div>
 
-                {/* Информационные блоки */}
                 <div className="space-y-3 mb-4">
-                    {/* Владелец */}
                     <div className="flex items-center">
                         <div className="bg-purple-100 p-2 rounded-lg mr-3">
                             <FontAwesomeIcon icon={faUser} className="text-purple-600" />
@@ -56,7 +50,6 @@ const ProductCard = ({ product } : ProductCardProps) => {
                         </div>
                     </div>
 
-                    {/* Локация */}
                     {product.location && (
                         <div className="flex items-center">
                             <div className="bg-red-100 p-2 rounded-lg mr-3">
@@ -70,7 +63,6 @@ const ProductCard = ({ product } : ProductCardProps) => {
                     )}
                 </div>
 
-                {/* Кнопки действий */}
                 <div className="mt-auto pt-3 space-y-3">
                     <button
                         className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center justify-center transition-colors duration-300"
