@@ -8,7 +8,7 @@ const NavLinks = ({ mobile = false, onLinkClick } : {mobile?: boolean, onLinkCli
 
     const links = [
         { path: "/", text: "Главная" },
-        { path: "/products", text: "Образы" },
+        { path: "/catalog", text: "Каталог" },
         { path: "/about", text: "О нас" },
         { path: "/contact", text: "Контакты" }
     ];

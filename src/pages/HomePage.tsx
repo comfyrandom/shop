@@ -10,7 +10,7 @@ import {
 
 const HomePage = () => {
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4">
             <h1 className="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600">
                 Добро пожаловать в <span className="font-extrabold">РосШкур</span>
             </h1>
