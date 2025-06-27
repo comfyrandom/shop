@@ -7,7 +7,7 @@ export interface Product {
     picture: string;
     description: string;
     collections?: Collection[];
-    owner: string;
+    owner_id: string;
 }
 
 export interface ProductDetails {

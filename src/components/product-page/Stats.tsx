@@ -1,5 +1,5 @@
 import React from 'react';
-import {unitsService} from "../../services/units.util.ts";
+import {unitsService} from "../../utils/units.util.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRuler, faRulerVertical} from "@fortawesome/free-solid-svg-icons";
 import {StatItem} from "./StatItem.tsx";

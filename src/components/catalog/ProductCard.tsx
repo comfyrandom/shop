@@ -2,21 +2,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faInfoCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
-
-export interface ProductCardItem {
-    id: string | number;
-    picture: string;
-    name: string;
-    price: number;
-    owner?: {
-        id : number;
-        name : string;
-    };
-}
+import type {ProductEssentials} from "../../services/products.service.ts";
 
 interface ProductCardProps {
     isAuthenticated?: boolean;
-    product: ProductCardItem;
+    product: ProductEssentials;
 }
 
 const ProductCard = ({ isAuthenticated = false, product } : ProductCardProps) => {
@@ -49,14 +39,14 @@ const ProductCard = ({ isAuthenticated = false, product } : ProductCardProps) =>
                         </div>
                         <div>
                             <div className="text-xs text-gray-500">Текущий владелец</div>
-                            { product.owner &&
-                                <Link to={`/users/${product.owner.id}`}>
-                                    <div className="font-medium text-blue-600">{product.owner.name}</div>
+                            { product.owner_details &&
+                                <Link to={`/user/${product.owner_id}`}>
+                                    <div className="font-medium text-blue-600">{product.owner_details.name}</div>
                                 </Link>
                             }
 
                             {
-                                !product.owner && <div className="font-medium text-blue-600">-</div>
+                                !product.owner_details && <div className="font-medium text-blue-600">-</div>
                             }
                         </div>
                     </div>

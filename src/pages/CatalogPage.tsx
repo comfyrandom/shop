@@ -1,7 +1,7 @@
-import ProductCard, {type ProductCardItem} from "../components/catalog/ProductCard.tsx";
 import {useEffect, useState} from "react";
-import {getAllProductCards} from "../services/products.service.ts";
+import {getProductEssentials, type ProductEssentials} from "../services/products.service.ts";
 import {isAuthenticated} from "../services/auth.service.ts";
+import ProductCard from "../components/catalog/ProductCard.tsx";
 
 const CatalogPage = () => {
 
@@ -9,7 +9,7 @@ const CatalogPage = () => {
     const [auth, setAuth] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const [products, setProducts] = useState<ProductCardItem[]>([]);
+    const [products, setProducts] = useState<ProductEssentials[]>([]);
 
     useEffect(() => {
         const load = async ()=> {
@@ -17,7 +17,7 @@ const CatalogPage = () => {
                 const isAuth = await isAuthenticated();
                 setAuth(isAuth);
 
-                const productCards = await getAllProductCards();
+                const productCards = await getProductEssentials();
 
                 if (productCards === null)
                     return;
