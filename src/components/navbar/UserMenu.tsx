@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUserCircle, faSignOutAlt, faWallet, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins} from '@fortawesome/free-solid-svg-icons';
 import {getCurrentUser, onAuthStateChange, signInWithEmail, signOut} from "../../services/auth.service.js";
 import type {User} from "@supabase/supabase-js";
 import {Link} from "react-router-dom";
 import {getUserBalance, getUserEssentials} from "../../services/users.service.ts";
-import {faBitcoin} from "@fortawesome/free-brands-svg-icons";
 import type {UserEssentials} from "../../types/userProfile.ts";
 
 export const UserMenu = () => {
@@ -146,7 +145,7 @@ export const UserMenu = () => {
                                         <FontAwesomeIcon icon={faWallet} className="mr-2 text-gray-400" />
                                         Баланс
                                     </span>
-                                    <span className="text-base font-semibold text-gray-900">{balance.toLocaleString()} <FontAwesomeIcon icon={faBitcoin} /></span>
+                                    <span className="text-base font-semibold text-gray-900">{balance.toLocaleString()} <FontAwesomeIcon icon={faCoins} /></span>
                                 </div>
                                 <Link to={'blog/1'}>
                                     <button

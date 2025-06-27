@@ -11,7 +11,7 @@ function App() {
   return (
     <HashRouter>
         <Header />
-        <div className="main-content container mx-auto px-4 md:px-16 lg:px-20 max-w-[1280px] max-lg:m-0 max-lg:mt-25 mt-25 flex-1">
+        <div className="main-content container mx-auto px-4 md:px-16 lg:px-20 max-w-[1280px] max-lg:m-0 max-lg:mt-25 mt-25 flex-1 mb-10">
             <Routes>
                 <Route path="/" element={<BlogPage />} />
                 <Route path="/about" element={<HomePage />} />

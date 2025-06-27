@@ -17,6 +17,8 @@ import Tag from "../components/common/Tag.tsx";
 import Features from "../components/product-page/Features.tsx";
 import {useParams} from "react-router-dom";
 import {getProductById} from "../services/products.service.ts";
+import CurrentOwner from "../components/product-page/CurrentOwner.tsx";
+import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 
 const ProductPage = () => {
 
@@ -37,6 +39,7 @@ const ProductPage = () => {
                 }
 
                 setProduct(result);
+                console.log(result);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -48,12 +51,13 @@ const ProductPage = () => {
         fetchProduct();
     }, [productId]);
 
-    if (loading)
-        return <div className="text-center py-20">Загрузка...</div>;
-    if (error)
-        return <div className="text-center py-20 text-red-500">{error}</div>;
-    if (!product)
-        return <div className="text-center py-20">Продукт не найден</div>;
+    if (loading) return <LoadingCard message="Загружаем продукт..." />;
+    if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+    if (!product) return <WarningCard
+        header="Не удалось загрузить продукт"
+        description="Похоже, что-то пошло не так. Пожалуйста, попробуйте позже."
+        onRetry={() => window.location.reload()}
+    />;
 
     return (
         <div className="bg-white text-gray-800 rounded-4xl mt-4 shadow-md">
@@ -61,6 +65,19 @@ const ProductPage = () => {
             <div className="max-w-110xl mx-auto px-6 py-8">
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="lg:w-3/8 space-y-6">
+
+                        {product.owner_id && product.owner_details && (
+                            <SectionCard title="Текущий владелец">
+                                <CurrentOwner
+                                    ownerId={product.owner_id}
+                                    name={product.owner_details.name}
+                                    picture={product.owner_details.picture}
+                                    description={product.owner_details.about}
+                                    isForSale={product.status === 'FOR_SALE'}
+                                    price={product.price}
+                                />
+                            </SectionCard>
+                        )}
 
                         {product.details &&
                             <SectionCard title="Характеристики" className={'relative'}>
@@ -151,7 +168,7 @@ const ProductPage = () => {
                     </div>
                 </div>
 
-                <Footer price={product.price}/>
+                {product.status === 'FOR_SALE' && <Footer price={product.price}/>}
             </div>
         </div>
     );

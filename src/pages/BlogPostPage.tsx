@@ -3,6 +3,7 @@ import './BlogPost.css';
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {type BlogContent, type BlogPreviewRecord, getBlogRecord} from "../services/blog.service.ts";
+import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 
 const BlogPostPage = () => {
     const { postId } = useParams<{ postId: string }>();
@@ -34,12 +35,12 @@ const BlogPostPage = () => {
         fetchProduct();
     }, [postId]);
 
-    if (loading)
-        return <div className="text-center py-20">Загрузка...</div>;
-    if (error)
-        return <div className="text-center py-20 text-red-500">{error}</div>;
-    if (!post)
-        return <div className="text-center py-20">Продукт не найден</div>;
+    if (loading) return <LoadingCard message="Загружаем пост..." />;
+    if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+    if (!post) return <WarningCard
+        header="Не удалось загрузить пост"
+        description="Похоже, что-то пошло не так. Пожалуйста, попробуйте позже."
+        onRetry={() => window.location.reload()}/>;
 
     return (
         <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden my-8 border border-gray-100">

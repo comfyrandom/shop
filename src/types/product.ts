@@ -8,9 +8,15 @@ export interface Product {
     description: string;
     collections?: Collection[];
     owner_id: string;
+    status: 'FOR_SALE' | 'NOT_FOR_SALE';
 }
 
 export interface ProductDetails {
+    owner_details: {
+        name: string;
+        picture: string;
+        about: string;
+    },
     details: {
         age: number;
         ethnicity?: string;

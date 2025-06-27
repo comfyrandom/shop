@@ -9,6 +9,7 @@ import Pinned from "../components/profile-page/Pinned.tsx";
 import Owned from "../components/profile-page/Owned.tsx";
 import Certificates from "../components/profile-page/Certificates.tsx";
 import Testimonials from "../components/profile-page/Testimonials.tsx";
+import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 
 const ProfilePage = () => {
 
@@ -50,12 +51,12 @@ const ProfilePage = () => {
         fetchProduct();
     }, [userId]);
 
-    if (loading)
-        return <div className="text-center py-20">Загрузка...</div>;
-    if (error)
-        return <div className="text-center py-20 text-red-500">{error}</div>;
-    if (!profile)
-        return <div className="text-center py-20">Пользователь не найден</div>;
+    if (loading) return <LoadingCard message="Загружаем профиль..." />;
+    if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+    if (!profile) return <WarningCard
+        header="Не удалось загрузить профиль"
+        description="Похоже, что-то пошло не так. Пожалуйста, попробуйте позже."
+        onRetry={() => window.location.reload()}/>;
 
     return (
         <div className="max-w-7xl mx-auto px-4 py-8">
