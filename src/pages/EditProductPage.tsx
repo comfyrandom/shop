@@ -19,6 +19,7 @@ import FeatureEditor from "../components/product-editor/FeatureEditor.tsx";
 import AccessoryEditor from "../components/product-editor/AccessoryEditor.tsx";
 import {toast, type ToastOptions} from "react-toastify";
 import {getCurrentUser} from "../services/auth.service.ts";
+import PassportEditor from "../components/product-editor/PassportEditor.tsx";
 
 const toastOptions: ToastOptions = {
     position: "bottom-right",
@@ -51,7 +52,6 @@ const EditProductPage = () => {
                     return;
 
                 if (data.owner_id !== cu.id) {
-
                     setError('Вы не можете редактировать не принадлежащий вам продукт');
                     return;
                 }
@@ -68,7 +68,7 @@ const EditProductPage = () => {
         loadProduct();
     }, [productId]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         if (!product) return;
 
         const { name, value } = e.target;
@@ -85,6 +85,16 @@ const EditProductPage = () => {
                 details: {
                     ...product.details,
                     [detailField]: value
+                }
+            });
+        }
+        else if (name.startsWith('passport_data.')) {
+            const passportField = name.split('.')[1];
+            setProduct({
+                ...product,
+                passport_data: {
+                    ...(product.passport_data || {}),
+                    [passportField]: value
                 }
             });
         }
@@ -557,7 +567,6 @@ const EditProductPage = () => {
             } else {
                 toast.error("Не удалось сохранить продукт", toastOptions);
             }
-
         }
     };
 
@@ -570,17 +579,24 @@ const EditProductPage = () => {
     />;
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20"> {/* Добавлен дополнительный padding-bottom */}
             <div className="mb-8">
                 <h2 className="text-3xl font-bold text-gray-900">
                     Редактирование продукта
                 </h2>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form id="product-form" onSubmit={handleSubmit} className="space-y-8">
                 <SectionCard title="Основная информация" description="Основные данные о продукте">
                     <BasicEditor
                         product={product}
+                        onChange={handleChange}
+                    />
+                </SectionCard>
+
+                <SectionCard title="Паспортные данные" description="Официальные документы и идентификация">
+                    <PassportEditor
+                        passportData={product.passport_data}
                         onChange={handleChange}
                     />
                 </SectionCard>
@@ -632,7 +648,6 @@ const EditProductPage = () => {
                         onChange={handleScenarioChange}
                     />
                 </SectionCard>
-
 
                 <SectionCard title="В комплекте" description="Собственность/связи/любые другие ценности">
                     <ExtraEditor
@@ -687,17 +702,21 @@ const EditProductPage = () => {
                         onChange={handleAccessoryChange}
                     />
                 </SectionCard>
+            </form>
 
-                <div className="flex justify-end">
+            {/* Закрепленная кнопка внизу экрана */}
+            <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-4 shadow-md">
+                <div className="max-w-5xl mx-auto flex justify-end">
                     <button
                         type="submit"
+                        form="product-form"
                         className="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
                     >
                         <FontAwesomeIcon icon={faSave} className="mr-2" />
                         Сохранить изменения
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     );
 };

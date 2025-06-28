@@ -12,12 +12,27 @@ export interface Product {
     status: 'FOR_SALE' | 'NOT_FOR_SALE';
 }
 
+interface PassportData {
+    last_name: string;
+    first_name: string;
+    middle_name: string;
+    gender: string;
+    date_of_birth: string;
+    place_of_birth: string;
+    passport_number: string;
+    issue_date: string;
+    issued_by: string;
+    registration: string;
+    biometric_id: string;
+}
+
 export interface ProductDetails {
     owner_details: {
         name: string;
         picture: string;
         about: string;
     },
+    passport_data: PassportData;
     price_history: Array<{
         price: number;
         created_at: string;

@@ -66,7 +66,8 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
             price:product_price (
                     price,
                     created_at
-            )
+            ),
+            passport_data(*)
         `)
         .eq('id', id)
         .single();
