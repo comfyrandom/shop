@@ -1,15 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faInfoCircle, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import type {ProductEssentials} from "../../services/products.service.ts";
 
 interface ProductCardProps {
-    isAuthenticated?: boolean;
     product: ProductEssentials;
 }
 
-const ProductCard = ({ isAuthenticated = false, product } : ProductCardProps) => {
+const ProductCard = ({ product } : ProductCardProps) => {
     return (
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col h-full">
 
@@ -53,15 +52,6 @@ const ProductCard = ({ isAuthenticated = false, product } : ProductCardProps) =>
                 </div>
 
                 <div className="mt-auto pt-3 space-y-3">
-                    { isAuthenticated &&
-                        <button
-                            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg flex items-center justify-center transition-colors duration-300"
-                            onClick={() => alert(`Товар ${product.id} добавлен в корзину`)}
-                        >
-                            <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
-                            В корзину
-                        </button>
-                    }
                     <Link to={`/product/${product.id}`}>
                         <button className="w-full py-3 border-2 border-gray-200 hover:border-blue-300 text-gray-800 font-medium rounded-lg flex items-center justify-center transition-all duration-300"
                         >

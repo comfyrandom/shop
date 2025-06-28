@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons";
 import type {Product} from "../../types/product.ts";
+import Markdown from "react-markdown";
 
 interface WearingProps {
     product?: Product;
@@ -49,8 +50,8 @@ const Wearing : React.FC<WearingProps> = ({product}) => {
                     <div>
                         <h3 className="font-bold text-lg">{product.name}</h3>
                         <div className="flex items-center text-sm text-gray-600 mt-1 max-w-md">
-                          <span className="line-clamp-1">
-                            {product.description}
+                          <span className="line-clamp-1 prose">
+                              <Markdown>{product.description}</Markdown>
                           </span>
                         </div>
                     </div>

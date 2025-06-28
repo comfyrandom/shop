@@ -1,5 +1,4 @@
 import ReactMarkdown from 'react-markdown';
-import './BlogPost.css';
 import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {type BlogContent, type BlogPreviewRecord, getBlogRecord} from "../services/blog.service.ts";

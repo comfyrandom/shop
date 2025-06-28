@@ -6,6 +6,9 @@ import ProductPage from "./pages/ProductPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import BlogPage from "./pages/BlogPage.tsx";
 import BlogPostPage from "./pages/BlogPostPage.tsx";
+import {ToastContainer} from "react-toastify";
+import EditProductPage from "./pages/EditProductPage.tsx";
+import CreateProductPage from "./pages/CreateProductPage.tsx";
 
 function App() {
   return (
@@ -17,11 +20,14 @@ function App() {
                 <Route path="/about" element={<HomePage />} />
                 <Route path="/catalog" element={<CatalogPage />} />
                 <Route path="/product/:productId" element={<ProductPage />} />
+                <Route path="/editProduct/:productId" element={<EditProductPage />} />
+                <Route path="/createProduct" element={<CreateProductPage />} />
                 <Route path="/user/:userId" element={<ProfilePage />} />
                 <Route path="/blog/:postId" element={<BlogPostPage />} />
                 <Route path="/blog" element={<BlogPage />} />
             </Routes>
         </div>
+        <ToastContainer />
     </HashRouter>
   )
 }

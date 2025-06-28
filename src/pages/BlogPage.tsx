@@ -75,25 +75,27 @@ const BlogPage = () => {
                             <div key={post.id} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow">
                                 <div className="p-6">
                                     <div className="flex items-center justify-between mb-4">
-                                        <div className="flex items-center space-x-3">
-                                            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
-                                                {post.author_details.picture ? (
-                                                    <img
-                                                        className="w-full h-full object-cover"
-                                                        src={post.author_details.picture}
-                                                        alt={post.author_details.name}
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIcon
-                                                        icon={faUserCircle}
-                                                        className="text-gray-600 text-2xl"
-                                                    />
-                                                )}
+                                        <Link to={`/user/${post.author_id}`}>
+                                            <div className="flex items-center space-x-3">
+                                                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
+                                                    {post.author_details.picture ? (
+                                                        <img
+                                                            className="w-full h-full object-cover"
+                                                            src={post.author_details.picture}
+                                                            alt={post.author_details.name}
+                                                        />
+                                                    ) : (
+                                                        <FontAwesomeIcon
+                                                            icon={faUserCircle}
+                                                            className="text-gray-600 text-2xl"
+                                                        />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-medium text-gray-900">{post.author_details.name}</h3>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h3 className="font-medium text-gray-900">{post.author_details.name}</h3>
-                                            </div>
-                                        </div>
+                                        </Link>
                                     </div>
 
                                     <Link to={`/blog/${post.id}`} className="block mb-3">

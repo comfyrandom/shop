@@ -4,7 +4,6 @@ import Header from "../components/product-page/Header.tsx";
 import Footer from "../components/product-page/Footer.tsx";
 import Stats from "../components/product-page/Stats.tsx";
 import SectionCard from "../components/product-page/SectionCard.tsx";
-import Ownership from "../components/product-page/Ownership.tsx";
 import Relationships from "../components/product-page/Relationships.tsx";
 import Accessories from "../components/product-page/Accessories.tsx";
 import CollectionCard from "../components/common/CollectionCard.tsx";
@@ -19,6 +18,8 @@ import {useParams} from "react-router-dom";
 import {getProductById} from "../services/products.service.ts";
 import CurrentOwner from "../components/product-page/CurrentOwner.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
+import PriceHistoryChart from "../components/product-page/PriceHistoryChart.tsx";
+import Markdown from "react-markdown";
 
 const ProductPage = () => {
 
@@ -85,21 +86,15 @@ const ProductPage = () => {
                             </SectionCard>
                         }
 
-                        <SectionCard title="Владение" className={'hidden'}>
-                            <Ownership price={product.price} previousOwners={0}/>
-                        </SectionCard>
-
-                        {product.details?.relationships &&
+                        {product.details?.relationships && product.details.relationships.length > 0 &&
                             <SectionCard title="Отношения">
                                 <Relationships relationships={product.details.relationships}/>
                             </SectionCard>
                         }
 
-                        {product.details?.accessories &&
-                            <SectionCard title="Аксесуары">
-                                <Accessories accessories={product.details.accessories}/>
-                            </SectionCard>
-                        }
+                        <SectionCard title="Аксесуары">
+                            <Accessories accessories={product.details.accessories} />
+                        </SectionCard>
 
                         {product.collections && product.collections.length > 0 && (
                             <SectionCard title="В коллекциях">
@@ -114,49 +109,41 @@ const ProductPage = () => {
 
                     <div className="lg:w-2/3 space-y-6">
                         <SectionCard title="Описание">
-                            <p className="text-black/80 leading-relaxed">
-                                {product.description}
-                            </p>
+                            <div className="text-black/80 leading-relaxed prose">
+                                <Markdown>
+                                    {product.description}
+                                </Markdown>
+                            </div>
                         </SectionCard>
 
-                        {product.details?.appearance && (
-                            <SectionCard title="Внешний вид">
-                                <Appearance appearance={product.details?.appearance} />
+                        { product.price_history && product.price_history.length > 1 &&
+                            <SectionCard title="История цены">
+                                <PriceHistoryChart data={product.price_history}/>
+                            </SectionCard>
+                        }
+
+                        {((product.details?.appearance && product.details?.appearance.length > 0) ||
+                            (product.details?.personality && product.details.personality.length > 0)) && (
+                            <SectionCard title="Внешность и характер">
+
+                                { product.details?.appearance && product.details?.appearance.length > 0 &&
+                                    <>
+                                        <h4 className="text-gray-800 font-semibold text-base mb-3">Внешность</h4>
+                                        <Appearance appearance={product.details?.appearance}/>
+                                    </>
+                                }
+
+                                { product.details?.personality && product.details?.personality.length > 0 &&
+                                    <>
+                                        <h4 className="text-gray-800 font-semibold text-base mb-3">Характер</h4>
+                                        <Personality traits={product.details.personality}/>
+                                    </>
+                                }
+
                             </SectionCard>
                         )}
 
-                        {product.details?.personality && (
-                            <SectionCard title="Характер">
-                                <Personality traits={product.details.personality} />
-                            </SectionCard>
-                        )}
-
-                        {product.details?.extras &&
-                            <SectionCard title="Premium Extras">
-                                <Extras extras={product.details.extras} />
-                            </SectionCard>
-                        }
-
-                        {product.details?.scenarios &&
-                            <SectionCard title="Сценарии">
-                                <Scenarios scenarios={product.details.scenarios} />
-                            </SectionCard>
-                        }
-
-                        {product.details?.history &&
-                            <SectionCard title="История">
-                                <History history={product.details?.history} />
-                            </SectionCard>
-                        }
-
-                        {
-                            product.details?.features &&
-                            <SectionCard title="Возможности">
-                                <Features features={product.details.features} />
-                            </SectionCard>
-                        }
-
-                        { product.details?.kinks &&
+                        { product.details?.kinks && product.details?.kinks.length > 0 &&
                             <SectionCard title="Кинки и фетиши">
                                 <div className="flex flex-wrap gap-2">
                                     {product.details.kinks.map((kink, index) => (
@@ -165,6 +152,28 @@ const ProductPage = () => {
                                 </div>
                             </SectionCard>
                         }
+
+                        {product.details?.extras && product.details?.extras.length > 0 &&
+                            <SectionCard title="Premium Extras">
+                                <Extras extras={product.details.extras} />
+                            </SectionCard>
+                        }
+
+                        {product.details?.scenarios && product.details?.scenarios.length > 0 &&
+                            <SectionCard title="Сценарии">
+                                <Scenarios scenarios={product.details.scenarios} />
+                            </SectionCard>
+                        }
+
+                        {product.details?.history && product.details?.history.length > 0 &&
+                            <SectionCard title="История">
+                                <History history={product.details?.history} />
+                            </SectionCard>
+                        }
+
+                        <SectionCard title="Возможности">
+                            <Features features={product.details.features} />
+                        </SectionCard>
                     </div>
                 </div>
 

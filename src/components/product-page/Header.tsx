@@ -41,10 +41,10 @@ const Header: React.FC<HeaderProps> = ({product}) => {
 
                             <h1 className="mt-4 text-2xl font-semibold text-center">{product.name}</h1>
                             <p className="text-gray-600 text-sm text-center">
-                                @{product.name.toLowerCase().replace(/\s/g, '')}
+                                @{product.alias}
                             </p>
 
-                            {product.details?.badges !== undefined && product.details.badges.length > 0 && (
+                            {product.details?.badges && product.details.badges.length > 0 && (
                                 <div className="flex flex-wrap justify-center gap-2 mt-2">
                                     {product.details.badges.map((badge, index) => (
                                         <Badge key={index} text={badge.text} color={badge.color} />
@@ -111,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({product}) => {
                             <div className="flex justify-between items-end">
                                 <div>
                                     <h1 className="text-4xl font-bold text-gray-800">{product.name}</h1>
-                                    <p className="text-gray-600 text-sm mt-1">@{product.name.toLowerCase().replace(/\s/g, '')}</p>
+                                    <p className="text-gray-600 text-sm mt-1">@{product.alias}</p>
                                     <div className="flex gap-2 mt-2">
                                         {product.details?.badges && product.details.badges.map((badge, index) => (
                                             <Badge key={index} text={badge.text} color={badge.color}/>

@@ -3,6 +3,7 @@ import type Collection from "./collection.ts";
 export interface Product {
     id: number;
     name: string;
+    alias: string;
     price: number;
     picture: string;
     description: string;
@@ -17,6 +18,10 @@ export interface ProductDetails {
         picture: string;
         about: string;
     },
+    price_history: Array<{
+        price: number;
+        created_at: string;
+    }>,
     details: {
         age: number;
         ethnicity?: string;
@@ -24,9 +29,8 @@ export interface ProductDetails {
         max_wear: string;
         condition : string;
         background: string;
-        height: { inches: number; meters: number };
-        weight: { pounds: number; kilograms: number };
-        measurements: { inches: string; cm: string };
+        height: number;
+        weight: number;
         pussy: string;
         sexual_preference: string;
         kinks?: Array<{

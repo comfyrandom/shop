@@ -6,6 +6,10 @@ export interface ProductEssentials {
     id: number;
     name: string;
     price: number;
+    price_history: Array<{
+        price: number;
+        created_at: string;
+    }>
     picture: string;
     owner_id: string;
     owner_details: {
@@ -59,7 +63,7 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
                 collection:collections(*)
             ),
             owner_details:user_details!owner_id(name, picture, about),
-            price:latest_product_price (
+            price:product_price (
                     price,
                     created_at
             )
@@ -72,7 +76,143 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
 
     return {
         ...data,
-        collections: data.collections?.map((response:CollectionResponse) => response.collection) || [],
-        price: data.price?.[0]?.price ?? 0
+        collections: data.collections?.map((response: CollectionResponse) => response.collection) || [],
+        price_history: data.price,
+        price: data.price?.length
+            ? [...data.price].sort((a, b) =>
+                new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            )[0].price
+            : 0
     };
 };
+
+export async function updateSaleStatus(productId: number, isOnSale: boolean, price?: number) {
+    if (isOnSale) {
+        if (!price) {
+            throw new Error("Price is required");
+        }
+
+        const { error } = await supabase
+            .rpc('place_item_on_sale', {
+                product_id: productId,
+                price: price
+        });
+
+        if (error) {
+            console.error('Error calling function:', error);
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        const { data, error } = await supabase
+            .from('products')
+            .update({
+                status: 'NOT_FOR_SALE'
+            })
+            .eq('id', productId)
+            .select();
+
+        if (error) {
+            console.error('Error calling function:', error);
+            return false;
+        }
+
+        console.log(data);
+        return data !== null && data.length > 0;
+    }
+}
+
+export interface ProductCreation {
+    alias: string;
+    picture: string;
+    name: string;
+    description: string;
+    details: {
+        sexual_preference: string;
+        ethnicity: string;
+        max_wear: string;
+        background: string;
+        biometry: string;
+        condition: string;
+        pussy: string;
+        age: number;
+        height: number;
+        weight: number;
+        appearance: string[];
+        personality: string[];
+        kinks: Array<{
+            text: string;
+            color?: string;
+        }>;
+        scenarios: Array<{
+            title: string;
+            description: string;
+        }>;
+        extras: Array<{
+            name: string;
+            description: string;
+            value: string;
+            exclusive: boolean;
+        }>;
+        history: Array<{
+            date: string;
+            title: string;
+            description: string;
+        }>;
+        relationships: Array<{
+            name: string;
+            relation: string;
+            status?: string;
+        }>;
+        badges: Array<{
+            text: string;
+            color: string;
+        }>;
+        features: Array<{
+            title: string;
+            description: string;
+        }>;
+        accessories: Array<{
+            name: string;
+            type: string;
+            description: string;
+            price: string;
+            included: boolean;
+        }>;
+    };
+}
+
+export async function createProduct(product: ProductCreation) : Promise<number | undefined> {
+    const { data, error } = await supabase
+        .rpc('create_product', { product_data: product })
+        .single();
+
+    if (error) {
+        console.error('Error creating product:', error);
+        return undefined;
+    }
+
+    // @ts-expect-error: Приведение типов пройдет нормально
+    if (data === undefined || data.product == undefined) {
+        return undefined;
+    }
+
+    // @ts-expect-error: Приведение типов пройдет нормально
+    return data.product.id as number;
+}
+
+export async function updateProduct(product: Product & ProductDetails) {
+    const { data, error } = await supabase
+        .rpc('update_product', { product_data: product })
+        .single();
+
+    console.log(data);
+
+    if (error) {
+        console.error('Error updating product:', error);
+        return false;
+    }
+
+    return data;
+}

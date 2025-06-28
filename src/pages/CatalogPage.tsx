@@ -1,22 +1,17 @@
 import {useEffect, useState} from "react";
 import {getProductEssentials, type ProductEssentials} from "../services/products.service.ts";
-import {isAuthenticated} from "../services/auth.service.ts";
 import ProductCard from "../components/catalog/ProductCard.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 import {EmptyStateCard} from "../components/common/EmptyState.tsx";
 
 const CatalogPage = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [auth, setAuth] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [products, setProducts] = useState<ProductEssentials[]>([]);
 
     useEffect(() => {
         const load = async ()=> {
             try {
-                const isAuth = await isAuthenticated();
-                setAuth(isAuth);
-
                 const productCards = await getProductEssentials();
 
                 if (productCards === null)
@@ -48,7 +43,7 @@ const CatalogPage = () => {
                     ? <EmptyStateCard title="Ой, кажется, мы не смогли найти никаких продуктов..." description="Попробуйте зайти позже или проверьте другие разделы"/>
                     : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 py-4">
                         {products.map((product, index) => (
-                            <ProductCard isAuthenticated={auth} product={product} key={index} />))
+                            <ProductCard product={product} key={index} />))
                         }
                     </div>
                 }
