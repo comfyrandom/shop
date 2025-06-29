@@ -20,26 +20,9 @@ import CurrentOwner from "../components/product-page/CurrentOwner.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 import PriceHistoryChart from "../components/product-page/PriceHistoryChart.tsx";
 import Markdown from "react-markdown";
-import {
-    faFingerprint,
-    faIdCard
-} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import moment from "moment";
+import Passport from "../components/product-page/Passport.tsx";
 
 const ProductPage = () => {
-
-    const redactLastName = (name: string) => {
-        if (!name) return '';
-        return `${name.charAt(0)}${'•'.repeat(name.length - 1)}`;
-    };
-
-    const redactPassportNumber = (number: string) => {
-        if (!number) return '';
-        const visiblePart = number.slice(0, 4);
-        const redactedPart = '•'.repeat(number.length - 4);
-        return `${visiblePart} ${redactedPart}`;
-    };
 
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product & ProductDetails | null>(null);
@@ -98,62 +81,11 @@ const ProductPage = () => {
                             </SectionCard>
                         )}
 
-                        <SectionCard title="Паспортные данные" className="overflow-hidden">
-                            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-3 rounded-lg">
-                                <div className="flex items-center mb-3">
-                                    <div className="flex items-center justify-center w-7 h-7 bg-white rounded-full shadow-xs mr-3">
-                                        <FontAwesomeIcon
-                                            icon={faIdCard}
-                                            className="text-blue-500 text-sm"
-                                            style={{ transform: 'scale(0.9)' }}
-                                        />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-gray-800 text-base leading-tight">
-                                            {redactLastName(product.passport_data.last_name)} {product.passport_data.first_name} {product.passport_data.middle_name}
-                                        </h3>
-                                        <p className="text-xs text-gray-500 mt-0.5">№ {redactPassportNumber(product.passport_data.passport_number)}</p>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-2.5 text-sm">
-                                    <div className="bg-white/80 p-2 rounded">
-                                        <p className="text-xs text-gray-500 mb-1">Дата рождения</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.date_of_birth ? moment(product.passport_data.date_of_birth).format('DD.MM.yyyy') : '-'}</p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-2 rounded">
-                                        <p className="text-xs text-gray-500 mb-1">Пол</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.gender !== '' ? product.passport_data.gender : '-'}</p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-2 rounded col-span-2">
-                                        <p className="text-xs text-gray-500 mb-1">Дата выдачи</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.issue_date ? moment(product.passport_data.issue_date).format('DD.MM.yyyy') : '-'}</p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-2 rounded col-span-2">
-                                        <p className="text-xs text-gray-500 mb-1">Кем выдан</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.issued_by ?? '-'}</p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-2 rounded col-span-2">
-                                        <p className="text-xs text-gray-500 mb-1">Место рождения</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.place_of_birth ?? '-'}</p>
-                                    </div>
-
-                                    <div className="bg-white/80 p-2 rounded col-span-2">
-                                        <p className="text-xs text-gray-500 mb-1">Прописка</p>
-                                        <p className="font-medium leading-tight">{product.passport_data.registration ?? '-'}</p>
-                                    </div>
-                                </div>
-
-                                <div className="mt-3 pt-2 border-t border-gray-200/50 flex items-center">
-                                    <FontAwesomeIcon icon={faFingerprint} className="text-amber-500 mr-1.5 text-xs" />
-                                    <span className="text-xs font-mono text-gray-600">ID: {product.passport_data.biometric_id}</span>
-                                </div>
-                            </div>
-                        </SectionCard>
+                        {product.passport_data &&
+                            <SectionCard title="Паспортные данные" className="overflow-hidden">
+                                <Passport passport={product.passport_data} />
+                            </SectionCard>
+                        }
 
                         {product.details &&
                             <SectionCard title="Характеристики" className={'relative'}>

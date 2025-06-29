@@ -13,11 +13,13 @@ const ProductCard = ({ product } : ProductCardProps) => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col h-full">
 
             <div className="relative overflow-hidden">
-                <img
-                    src={product.picture}
-                    alt={product.name}
-                    className="w-full h-60 max-sm:h-80 object-cover hover:scale-105 transition-transform duration-500"
-                />
+                <Link to={`/product/${product.id}`}>
+                    <img
+                        src={product.picture}
+                        alt={product.name}
+                        className="w-full h-60 max-sm:h-80 object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                </Link>
             </div>
 
             <div className="p-4 flex flex-col flex-grow">

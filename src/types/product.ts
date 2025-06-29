@@ -12,7 +12,7 @@ export interface Product {
     status: 'FOR_SALE' | 'NOT_FOR_SALE';
 }
 
-interface PassportData {
+export interface PassportData {
     last_name: string;
     first_name: string;
     middle_name: string;
