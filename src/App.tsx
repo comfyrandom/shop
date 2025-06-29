@@ -10,6 +10,8 @@ import {ToastContainer} from "react-toastify";
 import EditProductPage from "./pages/EditProductPage.tsx";
 import CreateProductPage from "./pages/CreateProductPage.tsx";
 import {AuthProvider} from "./contexts/AuthProvider.tsx";
+import BlogPostCreatePage from "./pages/BlogPostCreatePage.tsx";
+import BlogPostEditPage from "./pages/BlogPostEditPage.tsx";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
                     <Route path="/createProduct" element={<CreateProductPage />} />
                     <Route path="/user/:userId" element={<ProfilePage />} />
                     <Route path="/blog/:postId" element={<BlogPostPage />} />
+                    <Route path="/blog/create" element={<BlogPostCreatePage />} />
+                    <Route path="/blog/edit/:postId" element={<BlogPostEditPage />} />
                     <Route path="/blog" element={<BlogPage />} />
                 </Routes>
             </div>

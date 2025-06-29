@@ -1,4 +1,5 @@
 import type {Product} from "./product.ts";
+import type {BlogPreviewRecord} from "../services/blog.service.ts";
 
 export interface Certificate {
     user_id: string;
@@ -43,6 +44,7 @@ export default interface UserProfile {
     join_date: string;
     wearing_item?: Product;
     pinned_items?: Product[];
+    blog_posts?: BlogPreviewRecord[];
     owned_items?: Product[];
     certificates?: Certificate[];
     reviews?: Testimonial[];

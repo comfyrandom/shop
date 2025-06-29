@@ -15,6 +15,7 @@ import type {Product} from "../types/product.ts";
 import {getProfile} from "../services/users.service.ts";
 import {updateSaleStatus} from "../services/products.service.ts";
 import {useAuth} from "../hooks/useAuth.ts";
+import Blogs from "../components/profile-page/Blogs.tsx";
 
 const ProfilePage = () => {
     const { userId } = useParams<{ userId: string }>();
@@ -205,6 +206,12 @@ const ProfilePage = () => {
                             <Pinned products={profile.pinned_items}/>
                         </SectionCard>
                     }
+                    { profile.blog_posts && profile.blog_posts.length > 0 &&
+                        <SectionCard>
+                            <Blogs author={profile} blogs={profile.blog_posts} />
+                        </SectionCard>
+                    }
+
                     {profile.owned_items && profile.owned_items.length > 0 &&
                         <SectionCard>
                             <Owned
