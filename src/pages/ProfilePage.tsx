@@ -14,11 +14,11 @@ import {toast, type ToastOptions} from 'react-toastify';
 import type {Product} from "../types/product.ts";
 import {getProfile} from "../services/users.service.ts";
 import {updateSaleStatus} from "../services/products.service.ts";
-import {getCurrentUser} from "../services/auth.service.ts";
+import {useAuth} from "../hooks/useAuth.ts";
 
 const ProfilePage = () => {
     const { userId } = useParams<{ userId: string }>();
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+    const { user, initialized } = useAuth();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -147,12 +147,6 @@ const ProfilePage = () => {
 
         const fetchData = async () => {
             try {
-                const cu = await getCurrentUser();
-
-                if (cu !== null) {
-                    setCurrentUserId(cu.id);
-                }
-
                 if (userId === undefined) {
                     setError("Не удалось загрузить данные о пользователе");
                     setLoading(false);
@@ -179,8 +173,11 @@ const ProfilePage = () => {
         fetchData();
     }, [userId]);
 
-    if (loading) return <LoadingCard message="Загружаем профиль..." />;
+    if (!initialized || loading)
+        return <LoadingCard message="Загружаем профиль..." />;
+
     if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+
     if (!profile) return <WarningCard
         header="Не удалось загрузить профиль"
         description="Похоже, что-то пошло не так. Пожалуйста, попробуйте позже."
@@ -211,7 +208,7 @@ const ProfilePage = () => {
                     {profile.owned_items && profile.owned_items.length > 0 &&
                         <SectionCard>
                             <Owned
-                                isOwner={profile.id === currentUserId}
+                                isOwner={profile.id === user?.id}
                                 products={profile.owned_items}
                                 pinnedItems={profile.pinned_items}
                                 wearingId={profile.wearing_item?.id}

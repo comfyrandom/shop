@@ -7,13 +7,11 @@ export const signInWithEmail = async (email: string, password: string) => {
         password,
     });
 
-    window.location.reload();
     return { data, error };
 };
 
 export const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-    window.location.reload();
     return { error };
 };
 

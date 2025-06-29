@@ -18,8 +18,8 @@ import BadgeEditor from "../components/product-editor/BadgeEditor.tsx";
 import FeatureEditor from "../components/product-editor/FeatureEditor.tsx";
 import AccessoryEditor from "../components/product-editor/AccessoryEditor.tsx";
 import {toast, type ToastOptions} from "react-toastify";
-import {getCurrentUser} from "../services/auth.service.ts";
 import PassportEditor from "../components/product-editor/PassportEditor.tsx";
+import {useAuth} from "../hooks/useAuth.ts";
 
 const toastOptions: ToastOptions = {
     position: "bottom-right",
@@ -29,6 +29,7 @@ const toastOptions: ToastOptions = {
 };
 
 const EditProductPage = () => {
+    const { user, initialized } = useAuth();
     const { productId } = useParams<{ productId: string }>();
     const [product, setProduct] = useState<Product & ProductDetails | null>(null);
     const [loading, setLoading] = useState(true);
@@ -37,21 +38,17 @@ const EditProductPage = () => {
     useEffect(() => {
         const loadProduct = async () => {
             try {
-                setLoading(true);
-
-                const cu = await getCurrentUser();
-
-                if (cu === null) {
-                    setError('Редактирование продуктов недоступно неавторизованным пользователям');
+                if (user === null)
                     return;
-                }
+
+                setLoading(true);
 
                 const data = await getProductById(Number(productId));
 
                 if (data === undefined)
                     return;
 
-                if (data.owner_id !== cu.id) {
+                if (data.owner_id !== user.id) {
                     setError('Вы не можете редактировать не принадлежащий вам продукт');
                     return;
                 }
@@ -570,8 +567,16 @@ const EditProductPage = () => {
         }
     };
 
-    if (loading) return <LoadingCard message="Загружаем продукт..." />;
-    if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+    if (!initialized || loading)
+        return <LoadingCard message="Загрузка редактирования шкуры..." />;
+
+    if (!user) {
+        return <WarningCard header={"Ошибка авторизации"} description={"Редактирование шкур недоступно неавторизованным пользователям"} />
+    }
+
+    if (error)
+        return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+
     if (!product) return <WarningCard
         header="Не удалось загрузить продукт"
         description="Похоже, что-то пошло не так. Пожалуйста, попробуйте позже."

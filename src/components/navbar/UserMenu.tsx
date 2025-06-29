@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins} from '@fortawesome/free-solid-svg-icons';
-import {getCurrentUser, onAuthStateChange, signInWithEmail, signOut} from "../../services/auth.service.js";
-import type {User} from "@supabase/supabase-js";
+import {signInWithEmail, signOut} from "../../services/auth.service.js";
 import {Link} from "react-router-dom";
 import {getUserBalance, getUserEssentials} from "../../services/users.service.ts";
 import type {UserEssentials} from "../../types/userProfile.ts";
+import {useAuth} from "../../hooks/useAuth.ts";
 
 export const UserMenu = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const { user, initialized } = useAuth();
     const [essentials, setEssentials] = useState<UserEssentials | null>(null);
     const [balance, setBalance] = useState(0); // Добавлено состояние для баланса
     const [loading, setLoading] = useState(true);
@@ -20,11 +20,10 @@ export const UserMenu = () => {
 
     useEffect(() => {
         setLoading(true);
-        getCurrentUser().then(async (user) => {
-            setUser(user);
-
-            if (user === null) {
-                setLoading(false)
+        async function fetch() {
+            if (!user) {
+                setLoading(false);
+                setEssentials(null);
                 return;
             }
 
@@ -32,6 +31,7 @@ export const UserMenu = () => {
 
             if (details === null) {
                 setLoading(false)
+                setEssentials(null);
                 return;
             }
 
@@ -41,14 +41,10 @@ export const UserMenu = () => {
 
             setBalance(userBalance ?? 0);
             setLoading(false);
-        });
+        }
 
-        const { data: { subscription } } = onAuthStateChange((user) => {
-            setUser(user);
-        });
-
-        return () => subscription.unsubscribe();
-    }, []);
+        fetch();
+    }, [user]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -83,11 +79,12 @@ export const UserMenu = () => {
 
     const handleLogout = async () => {
         await signOut();
-        setUser(null);
         setShowDropdown(false);
     };
 
-    if (loading) return null;
+    if (loading || !initialized) {
+        return <></>;
+    }
 
     return (
         <div className="relative" ref={dropdownRef}>

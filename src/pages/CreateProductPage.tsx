@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {createProduct, type ProductCreation} from "../services/products.service";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFileImport, faSave} from '@fortawesome/free-solid-svg-icons';
-import { ErrorCard, LoadingCard } from "../components/common/StatusCards";
+import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards";
 import BasicEditor from "../components/product-editor/BasicEditor.tsx";
 import SectionCard from "../components/product-editor/SectionCard.tsx";
 import DetailsEditor from "../components/product-editor/DetailsEditor.tsx";
@@ -16,8 +16,8 @@ import BadgeEditor from "../components/product-editor/BadgeEditor.tsx";
 import FeatureEditor from "../components/product-editor/FeatureEditor.tsx";
 import AccessoryEditor from "../components/product-editor/AccessoryEditor.tsx";
 import { toast, type ToastOptions } from "react-toastify";
-import { getCurrentUser } from "../services/auth.service.ts";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from "../hooks/useAuth.ts";
 
 const toastOptions: ToastOptions = {
     position: "bottom-right",
@@ -56,6 +56,8 @@ const initialProductState : ProductCreation = {
 };
 
 const CreateProductPage = () => {
+
+    const { user, initialized } = useAuth();
     const [product, setProduct] = useState<ProductCreation>(initialProductState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -69,12 +71,10 @@ const CreateProductPage = () => {
             setJsonError(null);
             const importedProduct = JSON.parse(jsonInput);
 
-            // Validate basic structure
             if (typeof importedProduct !== 'object' || importedProduct === null) {
                 throw new Error('Invalid JSON structure');
             }
 
-            // Create a new product object with default values as fallback
             const newProduct: ProductCreation = {
                 ...initialProductState,
                 ...importedProduct,
@@ -561,16 +561,14 @@ const CreateProductPage = () => {
         setLoading(true);
 
         try {
-            const currentUser = await getCurrentUser();
-
-            if (!currentUser) {
+            if (!user) {
                 setError('Создание продуктов недоступно неавторизованным пользователям');
                 return;
             }
 
             const productToCreate = {
                 ...product,
-                owner_id: currentUser.id
+                owner_id: user.id
             };
 
             const createdProduct = await createProduct(productToCreate);
@@ -589,8 +587,15 @@ const CreateProductPage = () => {
         }
     };
 
-    if (loading) return <LoadingCard message="Создаем продукт..." />;
-    if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
+    if (!initialized || loading)
+        return <LoadingCard message="Загрузка создания шкуры..." />;
+
+    if (!user) {
+        return <WarningCard header={"Ошибка авторизации"} description={"Создание шкур недоступно неавторизованным пользователям"} />
+    }
+
+    if (error)
+        return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

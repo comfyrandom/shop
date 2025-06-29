@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faStar, faStarHalfAlt, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import type { Testimonial } from "../../types/userProfile.ts";
 import { Link } from "react-router-dom";
-import { getCurrentUser } from "../../services/auth.service.ts";
 import { addReview, deleteReview, updateReview } from "../../services/reviews.service.ts";
+import {useAuth} from "../../hooks/useAuth.ts";
+import {LoadingCard} from "../common/StatusCards.tsx";
 
 interface TestimonialsProps {
     reviews: Testimonial[];
@@ -12,10 +13,11 @@ interface TestimonialsProps {
 }
 
 const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
+
+    const { user, initialized } = useAuth();
     const [reviewList, setReviewList] = useState<Testimonial[]>(reviews);
     const [isWritingReview, setIsWritingReview] = useState(false);
     const [isEditingReview, setIsEditingReview] = useState(false);
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
     const [comment, setComment] = useState('');
@@ -24,29 +26,21 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
     const [currentUserReview, setCurrentUserReview] = useState<Testimonial | null>(null);
 
     useEffect(() => {
-        const fetchCurrentUser = async () => {
-            try {
-                const result = await getCurrentUser();
-                if (!result) return;
+        if (!user) {
+            return;
+        }
 
-                setCurrentUserId(result.id);
-                const userReview = reviewList.find(review => review.reviewer_id === result.id);
-                if (userReview) {
-                    setCurrentUserReview(userReview);
-                }
-            } catch (err) {
-                console.error(err);
-                setError("Не удалось загрузить данные о пользователе.");
-            }
-        };
+        const userReview = reviewList.find(review => review.reviewer_id === user.id);
 
-        fetchCurrentUser();
-    }, [reviewList]);
+        if (userReview) {
+            setCurrentUserReview(userReview);
+        }
+    }, [reviewList, user]);
 
     const handleSubmitReview = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!currentUserId) {
+        if (!user) {
             setError('Вы должны войти в систему, чтобы оставить отзыв.');
             return;
         }
@@ -68,20 +62,20 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
             let success: boolean;
 
             if (isEditingReview) {
-                success = await updateReview(userId, currentUserId, rating, comment.trim());
+                success = await updateReview(userId, user.id, rating, comment.trim());
             } else {
-                success = await addReview(userId, currentUserId, rating, comment.trim());
+                success = await addReview(userId, user.id, rating, comment.trim());
             }
 
             if (success) {
                 const updatedReviews = isEditingReview
                     ? reviewList.map((r) =>
-                        r.reviewer_id === currentUserId
+                        r.reviewer_id === user.id
                             ? { ...r, rating, comment }
                             : r
                     )
                     : [...reviewList, {
-                        reviewer_id: currentUserId,
+                        reviewer_id: user.id,
                         reviewer_name: 'Вы',
                         rating,
                         comment,
@@ -112,14 +106,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
     const handleDeleteReview = async () => {
         if (window.confirm('Вы уверены, что хотите удалить этот отзыв?')) {
             try {
-                if (!currentUserId) {
+                if (!user || !user.id) {
                     setError('Вы должны войти в систему, чтобы удалить отзыв.');
                     return;
                 }
 
-                const success = await deleteReview(userId, currentUserId);
+                const success = await deleteReview(userId, user.id);
                 if (success) {
-                    const updatedReviews = reviewList.filter(r => r.reviewer_id !== currentUserId);
+                    const updatedReviews = reviewList.filter(r => r.reviewer_id !== user.id);
                     setReviewList(updatedReviews);
                     setCurrentUserReview(null);
                     setIsEditingReview(false);
@@ -140,6 +134,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
         setError('');
     };
 
+    if (!initialized) {
+        return <LoadingCard message={"Идёт загрузка..."} />
+    }
+
     return (
         <div className="max-w-2xl mx-auto">
             <div className="flex justify-between items-center mb-6">
@@ -152,7 +150,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
                         </span>
                     )}
                 </h2>
-                {currentUserId && currentUserId !== userId && !currentUserReview && (
+                {user && user.id && user.id !== userId && !currentUserReview && (
                     <button
                         onClick={() => setIsWritingReview(!isWritingReview)}
                         className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-1.5 rounded-lg text-sm shadow-sm transition-all duration-200 hover:shadow-md"
@@ -162,7 +160,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
                 )}
             </div>
 
-            {(isWritingReview || isEditingReview) && (
+            {user && (isWritingReview || isEditingReview) && (
                 <div className="mb-8 p-5 bg-white rounded-xl shadow-sm border border-gray-100">
                     <h3 className="font-semibold text-lg mb-3 text-gray-800">
                         {isEditingReview ? 'Редактировать отзыв' : 'Оставить отзыв'}
@@ -252,7 +250,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
                                         <span className="text-sm text-gray-500">{new Date(review.created_at).toLocaleDateString('ru-RU')}</span>
                                     </div>
                                 </div>
-                                {currentUserId === review.reviewer_id && (
+                                {user && user.id === review.reviewer_id && (
                                     <div className="flex space-x-2">
                                         <button
                                             onClick={() => handleEditReview(review)}
