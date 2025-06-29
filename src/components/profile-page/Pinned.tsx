@@ -25,7 +25,7 @@ const Pinned : React.FC<PinnedProps> = ({products}) => {
 
             <div className="grid md:grid-cols-2 gap-4">
                 {pinnedProducts.map(product => (
-                    <Link to={`/product/${product.id}`} key={product.id}>
+                    <Link to={`/product/${product.alias}`} key={product.id}>
                         <div className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                             <div className="w-16 min-w-16 h-16 bg-gray-200 rounded-md overflow-hidden mr-3">
                                 <img src={product.picture} alt={product.name} className="w-full h-full object-cover" />

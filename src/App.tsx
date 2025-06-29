@@ -12,6 +12,7 @@ import CreateProductPage from "./pages/CreateProductPage.tsx";
 import {AuthProvider} from "./contexts/AuthProvider.tsx";
 import BlogPostCreatePage from "./pages/BlogPostCreatePage.tsx";
 import BlogPostEditPage from "./pages/BlogPostEditPage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 
 function App() {
   return (
@@ -26,11 +27,12 @@ function App() {
                     <Route path="/product/:productId" element={<ProductPage />} />
                     <Route path="/editProduct/:productId" element={<EditProductPage />} />
                     <Route path="/createProduct" element={<CreateProductPage />} />
-                    <Route path="/user/:userId" element={<ProfilePage />} />
+                    <Route path="/user/:alias" element={<ProfilePage />} />
                     <Route path="/blog/:postId" element={<BlogPostPage />} />
                     <Route path="/blog/create" element={<BlogPostCreatePage />} />
                     <Route path="/blog/edit/:postId" element={<BlogPostEditPage />} />
                     <Route path="/blog" element={<BlogPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
                 </Routes>
             </div>
             <ToastContainer />

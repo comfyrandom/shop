@@ -7,7 +7,8 @@ import {
     faArrowUpFromBracket,
     faBan,
     faShirt,
-    faXmark
+    faXmark,
+    faPen
 } from "@fortawesome/free-solid-svg-icons";
 import type {Product} from '../../types/product';
 import {Link} from "react-router-dom";
@@ -86,7 +87,7 @@ const OwnedItem: React.FC<OwnedItemProps> = ({
             <div
                 className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group border border-gray-100 hover:border-gray-200 flex flex-col h-full">
                 <div className="relative h-64 w-full overflow-hidden flex-shrink-0">
-                    <Link key={product.id} to={`/product/${product.id}`}>
+                    <Link key={product.id} to={`/product/${product.alias}`}>
                         <img
                             src={product.picture}
                             alt={product.name}
@@ -102,12 +103,20 @@ const OwnedItem: React.FC<OwnedItemProps> = ({
                         }
                     </Link>
 
-                    {isOwner && <button
-                        onClick={togglePinStatus}
-                        className={`absolute top-3 right-3 p-2 rounded-full transition-colors ${isPinned ? 'bg-blue-100 text-blue-600' : 'bg-white/80 text-gray-500 hover:bg-gray-100'}`}
-                    >
-                        <FontAwesomeIcon icon={faThumbtack} className={`w-4 h-4 ${isPinned ? 'rotate-45' : ''}`}/>
-                    </button>}
+                    {isOwner && <div className="absolute top-3 right-3 flex flex-col space-y-2">
+                        <button
+                            onClick={togglePinStatus}
+                            className={`p-2 rounded-full transition-colors ${isPinned ? 'bg-blue-100 text-blue-600' : 'bg-white/80 text-gray-500 hover:bg-gray-100'}`}
+                        >
+                            <FontAwesomeIcon icon={faThumbtack} className={`w-4 h-4 ${isPinned ? 'rotate-45' : ''}`}/>
+                        </button>
+                        <Link
+                            to={`/editProduct/${product.alias}`}
+                            className="p-2 rounded-full transition-colors bg-white/80 text-gray-500 hover:bg-gray-100"
+                        >
+                            <FontAwesomeIcon icon={faPen} className="w-4 h-4"/>
+                        </Link>
+                    </div>}
                 </div>
 
                 <div className="p-4 flex flex-col flex-grow">

@@ -12,13 +12,13 @@ import Testimonials from "../components/profile-page/Testimonials.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 import {toast, type ToastOptions} from 'react-toastify';
 import type {Product} from "../types/product.ts";
-import {getProfile} from "../services/users.service.ts";
+import {getUserProfile} from "../services/users.service.ts";
 import {updateSaleStatus} from "../services/products.service.ts";
 import {useAuth} from "../hooks/useAuth.ts";
 import Blogs from "../components/profile-page/Blogs.tsx";
 
 const ProfilePage = () => {
-    const { userId } = useParams<{ userId: string }>();
+    const { alias } = useParams<{ alias: string }>();
     const { user, initialized } = useAuth();
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ const ProfilePage = () => {
 
     const handlePinChange = async (productId: number, isPinned: boolean) => {
         try {
-            const result = await updatePinned(userId!, productId, isPinned);
+            const result = await updatePinned(alias!, productId, isPinned);
 
             if (result === true) {
                 setProfile(prev => {
@@ -104,7 +104,7 @@ const ProfilePage = () => {
 
     const handleWearStatusChange = async (productId: number, isWearing: boolean) => {
         try {
-            const result = await updateWearing(userId!, isWearing ? productId : undefined);
+            const result = await updateWearing(alias!, isWearing ? productId : undefined);
 
             if (result) {
                 setProfile(prev => {
@@ -148,13 +148,14 @@ const ProfilePage = () => {
 
         const fetchData = async () => {
             try {
-                if (userId === undefined) {
+
+                if (alias === undefined) {
                     setError("Не удалось загрузить данные о пользователе");
                     setLoading(false);
                     return;
                 }
 
-                const result = await getProfile(userId);
+                const result = await getUserProfile(alias);
 
                 if (result === undefined) {
                     setError("Не удалось загрузить данные о пользователе");
@@ -172,7 +173,7 @@ const ProfilePage = () => {
         };
 
         fetchData();
-    }, [userId]);
+    }, [alias]);
 
     if (!initialized || loading)
         return <LoadingCard message="Загружаем профиль..." />;

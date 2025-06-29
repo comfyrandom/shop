@@ -13,7 +13,7 @@ const ProductCard = ({ product } : ProductCardProps) => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col h-full">
 
             <div className="relative overflow-hidden">
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/product/${product.alias}`}>
                     <img
                         src={product.picture}
                         alt={product.name}
@@ -41,7 +41,7 @@ const ProductCard = ({ product } : ProductCardProps) => {
                         <div>
                             <div className="text-xs text-gray-500">Текущий владелец</div>
                             { product.owner_details &&
-                                <Link to={`/user/${product.owner_id}`}>
+                                <Link to={`/user/${product.owner_details.alias}`}>
                                     <div className="font-medium text-blue-600">{product.owner_details.name}</div>
                                 </Link>
                             }

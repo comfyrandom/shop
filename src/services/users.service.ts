@@ -2,23 +2,51 @@ import {supabase} from "./supabase.client.ts";
 import type UserProfile from "../types/userProfile.ts";
 import type { UserEssentials } from "../types/userProfile.ts";
 
-export const getUserEssentials = async (userId: string): Promise<UserEssentials | null> => {
-    const { data, error } = await supabase
-        .from('user_details')
-        .select(`*`)
-        .eq('id', userId)
-        .single();
+const userEssentialsCache = new Map<string, UserEssentials | null>();
+const userEssentialsPromiseCache = new Map<string, Promise<UserEssentials | null>>();
 
-    if (error) {
-        console.error(error);
-        return null;
-    }
-    if (!data) {
-        return null;
+export const getUserEssentials = (userId: string): Promise<UserEssentials | null> => {
+
+    if (userEssentialsCache.has(userId)) {
+        return Promise.resolve(userEssentialsCache.get(userId) ?? null);
     }
 
-    return data;
-}
+    if (userEssentialsPromiseCache.has(userId)) {
+        return userEssentialsPromiseCache.get(userId)!;
+    }
+
+    const fetchPromise = (async () => {
+        try {
+            const { data, error } = await supabase
+                .from('user_details')
+                .select('*')
+                .eq('id', userId)
+                .single();
+
+            console.log('Performing user fetch')
+            ;
+            if (error) {
+                console.error(error);
+                userEssentialsCache.set(userId, null);
+                return null;
+            }
+
+            userEssentialsCache.set(userId, data);
+            return data;
+        } catch (err) {
+            console.error(err);
+            userEssentialsCache.set(userId, null);
+            return null;
+        } finally {
+            userEssentialsPromiseCache.delete(userId);
+        }
+    })();
+
+    userEssentialsPromiseCache.set(userId, fetchPromise);
+    return fetchPromise;
+};
+
+
 
 export const getUserBalance = async (userId: string): Promise<number | null> => {
     const { data, error } = await supabase
@@ -38,9 +66,10 @@ export const getUserBalance = async (userId: string): Promise<number | null> => 
     return data.balance;
 }
 
-export const getProfile = async (userId: string): Promise<UserProfile | undefined> => {
-    const { data, error } = await supabase
-        .rpc('get_user_profile', { p_user_id: userId })
+export const getUserProfile = async (alias: string): Promise<UserProfile | undefined> => {
+
+    const {data, error} = await supabase
+        .rpc('get_user_profile', {p_alias: alias})
         .single();
 
     if (error)
@@ -50,8 +79,27 @@ export const getProfile = async (userId: string): Promise<UserProfile | undefine
         return undefined;
     }
 
-    console.log(data);
-    
     // @ts-expect-error: Ожидается, что вернется правильный тип
     return data;
+}
+
+
+export const createUser = async (name: string, email: string, password: string, alias: string, invite_code: string): Promise<{status: boolean, error?: Error}> => {
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                name: name,
+                alias: alias,
+                invite_code: invite_code
+            }
+        }
+    });
+
+    if (error) {
+        return {status: false, error: error};
+    }
+
+    return { status: data !== undefined }
 }

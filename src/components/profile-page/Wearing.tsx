@@ -42,7 +42,7 @@ const Wearing : React.FC<WearingProps> = ({product}) => {
                 В данный момент надето
             </h2>
 
-            <Link to={`/product/${product.id}`}>
+            <Link to={`/product/${product.alias}`}>
                 <div className="flex items-center p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
                     <div className="w-20 h-20 min-w-20 bg-gray-200 rounded-full overflow-hidden mr-4 border-2 border-white shadow-md">
                         <img src={product.picture} alt={product.name} className="w-full h-full object-cover" />

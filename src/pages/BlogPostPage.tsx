@@ -109,7 +109,7 @@ const BlogPostPage = () => {
 
             {/* Информация об авторе */}
             <div className="p-6 border-b border-gray-100">
-                <Link to={`/user/${post.author_id}`}>
+                <Link to={`/user/${post.author_details.alias}`}>
                     <div className="flex items-center space-x-4">
                         <div className="relative">
                             {post.author_details?.picture ? (

@@ -29,6 +29,7 @@ export interface Socials {
 
 export interface UserEssentials {
     id: string;
+    alias: string;
     location: string;
     name: string;
     picture: string;

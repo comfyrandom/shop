@@ -35,7 +35,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
         if (userReview) {
             setCurrentUserReview(userReview);
         }
-    }, [reviewList, user]);
+    }, [reviewList, user?.id]);
 
     const handleSubmitReview = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -139,7 +139,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
     }
 
     return (
-        <div className="max-w-2xl mx-auto">
+        <div className="mx-auto">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold flex items-center text-gray-800">
                     <FontAwesomeIcon icon={faComment} className="text-amber-500 mr-3" />

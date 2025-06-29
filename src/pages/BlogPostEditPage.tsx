@@ -33,6 +33,10 @@ const BlogPostEditPage = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
+                if (!user) {
+                    throw new Error('Пользователь не авторизован');
+                }
+
                 if (!postId) {
                     throw new Error('ID записи не указан');
                 }
@@ -51,7 +55,7 @@ const BlogPostEditPage = () => {
         };
 
         fetchPost();
-    }, [postId]);
+    }, [postId, user?.id]);
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (post) {

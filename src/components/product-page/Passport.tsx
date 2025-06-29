@@ -48,28 +48,36 @@ const Passport : React.FC<PassportProps> = ({passport}) => {
 
                 <div className="bg-white/80 p-2 rounded">
                     <p className="text-xs text-gray-500 mb-1">Пол</p>
-                    <p className="font-medium leading-tight">{passport.gender !== '' ? passport.gender : '-'}</p>
+                    <p className="font-medium leading-tight">{passport.gender && passport.gender !== '' ? passport.gender : '-'}</p>
                 </div>
 
-                <div className="bg-white/80 p-2 rounded col-span-2">
-                    <p className="text-xs text-gray-500 mb-1">Дата выдачи</p>
-                    <p className="font-medium leading-tight">{passport.issue_date ? moment(passport.issue_date).format('DD.MM.yyyy') : '-'}</p>
-                </div>
+                {passport.issue_date &&
+                    <div className="bg-white/80 p-2 rounded col-span-2">
+                        <p className="text-xs text-gray-500 mb-1">Дата выдачи</p>
+                        <p className="font-medium leading-tight">{passport.issue_date}</p>
+                    </div>
+                }
 
-                <div className="bg-white/80 p-2 rounded col-span-2">
-                    <p className="text-xs text-gray-500 mb-1">Кем выдан</p>
-                    <p className="font-medium leading-tight">{passport.issued_by ?? '-'}</p>
-                </div>
+                {passport.issued_by &&
+                    <div className="bg-white/80 p-2 rounded col-span-2">
+                        <p className="text-xs text-gray-500 mb-1">Кем выдан</p>
+                        <p className="font-medium leading-tight">{passport.issued_by}</p>
+                    </div>
+                }
 
-                <div className="bg-white/80 p-2 rounded col-span-2">
-                    <p className="text-xs text-gray-500 mb-1">Место рождения</p>
-                    <p className="font-medium leading-tight">{passport.place_of_birth ?? '-'}</p>
-                </div>
+                {passport.place_of_birth &&
+                    <div className="bg-white/80 p-2 rounded col-span-2">
+                        <p className="text-xs text-gray-500 mb-1">Место рождения</p>
+                        <p className="font-medium leading-tight">{passport.place_of_birth}</p>
+                    </div>
+                }
 
-                <div className="bg-white/80 p-2 rounded col-span-2">
-                    <p className="text-xs text-gray-500 mb-1">Прописка</p>
-                    <p className="font-medium leading-tight">{passport.registration ?? '-'}</p>
-                </div>
+                {passport.registration &&
+                    <div className="bg-white/80 p-2 rounded col-span-2">
+                        <p className="text-xs text-gray-500 mb-1">Прописка</p>
+                        <p className="font-medium leading-tight">{passport.registration}</p>
+                    </div>
+                }
             </div>
 
             <div className="mt-3 pt-2 border-t border-gray-200/50 flex items-center">

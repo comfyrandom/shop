@@ -598,7 +598,7 @@ const CreateProductPage = () => {
         return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-5xl mx-auto sm:px-6 lg:px-8 px-4 py-4">
             <div className="mb-8 flex justify-between items-center">
                 <h2 className="text-3xl font-bold text-gray-900">
                     Создание нового продукта

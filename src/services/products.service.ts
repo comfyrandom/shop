@@ -5,6 +5,7 @@ import type Collection from "../types/collection.ts";
 export interface ProductEssentials {
     id: number;
     name: string;
+    alias: string;
     price: number;
     price_history: Array<{
         price: number;
@@ -13,6 +14,7 @@ export interface ProductEssentials {
     picture: string;
     owner_id: string;
     owner_details: {
+        alias: string;
         name: string;
     };
 }
@@ -28,8 +30,9 @@ export const getProductEssentials = async (): Promise<ProductEssentials[]> => {
                 id,
                 name,
                 picture,
+                alias,
                 owner_id,
-                owner_details:user_details!products_owner_id_fkey1 (name),
+                owner_details:user_details!products_owner_id_fkey1 (name, alias),
                 price:latest_product_price (
                     price,
                     created_at
@@ -70,6 +73,39 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
             passport_data(*)
         `)
         .eq('id', id)
+        .single();
+
+    if (error || !data)
+        return undefined;
+
+    return {
+        ...data,
+        collections: data.collections?.map((response: CollectionResponse) => response.collection) || [],
+        price_history: data.price,
+        price: data.price?.length
+            ? [...data.price].sort((a, b) =>
+                new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            )[0].price
+            : 0
+    };
+};
+
+export const getProductByAlias = async (alias: string): Promise<(Product & ProductDetails) | undefined> => {
+    const { data, error } = await supabase
+        .from('products')
+        .select(`*,
+            details:product_details(*),
+            collections:product_collections(
+                collection:collections(*)
+            ),
+            owner_details:user_details!owner_id(name, picture, about),
+            price:product_price (
+                    price,
+                    created_at
+            ),
+            passport_data(*)
+        `)
+        .eq('alias', alias)
         .single();
 
     if (error || !data)

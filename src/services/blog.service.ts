@@ -7,6 +7,7 @@ export interface BlogPreviewRecord {
     author_details: {
         name: string;
         picture: string;
+        alias: string;
     };
     excerpt: string;
     created_at: string;
@@ -70,7 +71,7 @@ export const getBlogsPreview = async (): Promise<BlogPreviewRecord[]> => {
     const { data, error } = await supabase
         .from("blog_posts")
         .select(`id, title, excerpt, tags, author_id, created_at,
-        author_details:user_details(name, picture)`)
+        author_details:user_details(name, alias, picture)`)
         .order('id', { ascending: false }); // or set ascending: false for descending order
 
     if (error) {
@@ -90,7 +91,7 @@ export const getBlogRecord = async (id: number): Promise<(BlogPreviewRecord & Bl
     const { data, error } = await supabase
         .from("blog_posts")
         .select(`id, title, excerpt, tags, author_id, content, created_at,
-            author_details:user_details(name, picture)`)
+            author_details:user_details(name, picture, alias)`)
         .eq('id', id)
         .single();
 

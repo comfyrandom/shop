@@ -8,7 +8,7 @@ import {
     faUserSecret,
     faUserTag
 } from "@fortawesome/free-solid-svg-icons";
-import { formatDuration } from "../../utils/dates.utils.ts";
+import {formatDuration } from "../../utils/dates.utils.ts";
 import {SocialLinks} from "./SocialLinks.tsx";
 import type UserProfile from "../../types/userProfile.ts";
 
@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
                     </div>
 
                     <div className="flex flex-wrap gap-3 mt-6">
-                        {location && (
+                        {profile.location && (
                             <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
                                 <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-500 mr-2" />
                                 <span>{profile.location}</span>
@@ -82,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
                         )}
                         <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
                             <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-500 mr-2" />
-                            <span>На сайте с {profile.join_date}</span>
+                            <span>На сайте с {new Date(profile.join_date).toLocaleDateString()}</span>
                         </div>
                         <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-sm">
                             <FontAwesomeIcon icon={faUserTag} className="text-gray-500 mr-2" />

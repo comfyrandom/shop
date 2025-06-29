@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./CurrentOwner.module.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCoins} from "@fortawesome/free-solid-svg-icons";
+import {faCoins, faUserCircle} from "@fortawesome/free-solid-svg-icons";
 
 interface CurrentOwnerProps  {
     ownerId: string;
@@ -13,26 +13,27 @@ interface CurrentOwnerProps  {
     price?: number;
 }
 
-const CurrentOwner: React.FC<CurrentOwnerProps> = ({
-                                                       ownerId,
-                                                       name,
-                                                       picture,
-                                                       description,
-                                                       isForSale = true,
-                                                       price = 5000
-                                                   }) => (
+const CurrentOwner: React.FC<CurrentOwnerProps> = ({ownerId,name,picture,description,isForSale,price}) => (
     <div className="space-y-3">
         <Link to={`/user/${ownerId}`}>
             <div className="bg-gray-50 rounded-xl border border-gray-200 p-4 hover:border-pink-300 transition-colors duration-200 shadow-sm hover:shadow-md">
                 <div className="flex items-start gap-4">
-                    <img
-                        src={picture}
-                        alt={name}
-                        className="w-14 h-14 rounded-full object-cover border-2 border-white group-hover:border-pink-200 transition-colors duration-200 flex-shrink-0"
-                        onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/56';
-                        }}
-                    />
+                    {picture &&
+                        <img
+                            src={picture}
+                            alt={name}
+                            className="w-14 h-14 rounded-full object-cover border-2 border-white group-hover:border-pink-200 transition-colors duration-200 flex-shrink-0"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://via.placeholder.com/56';
+                            }}
+                        />
+                    }
+                    { !picture &&
+                        <FontAwesomeIcon
+                            icon={faUserCircle}
+                            className="w-14 h-14 text-4xl text-gray-600"
+                        />
+                    }
                     <div>
                         <h3 className="font-bold text-gray-800 text-lg group-hover:text-pink-600 transition-colors duration-200">
                             {name}

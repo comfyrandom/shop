@@ -15,7 +15,7 @@ import History from "../components/product-page/History.tsx";
 import Tag from "../components/common/Tag.tsx";
 import Features from "../components/product-page/Features.tsx";
 import {useParams} from "react-router-dom";
-import {getProductById} from "../services/products.service.ts";
+import {getProductByAlias, getProductById} from "../services/products.service.ts";
 import CurrentOwner from "../components/product-page/CurrentOwner.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 import PriceHistoryChart from "../components/product-page/PriceHistoryChart.tsx";
@@ -32,7 +32,21 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const result = await getProductById(Number(productId));
+                setError(null);
+
+                if (productId == undefined) {
+                    setError("Не удалось загрузить данные о продукте");
+                    setLoading(false);
+                    return;
+                }
+
+                let result;
+
+                if (/^\d/.test(productId || '')) {
+                    result = await getProductById(Number(productId));
+                } else {
+                    result = await getProductByAlias(productId);
+                }
 
                 if (result === undefined) {
                     setError("Не удалось загрузить данные о продукте");

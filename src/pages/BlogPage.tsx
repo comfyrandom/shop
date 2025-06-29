@@ -38,11 +38,9 @@ const BlogPage = () => {
                     return;
                 }
 
-                console.log(result);
                 setPosts(result);
                 setLoading(false);
             } catch (err) {
-                console.error(err);
                 setError("Не удалось загрузить данные о продукте");
                 setLoading(false);
             }
@@ -92,7 +90,7 @@ const BlogPage = () => {
     />;
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 py-4">
             {postToDelete && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full">
@@ -159,7 +157,7 @@ const BlogPage = () => {
                             <div key={post.id} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow flex flex-col h-full">
                                 <div className="p-6 flex flex-col flex-grow">
                                     <div className="flex items-center justify-between mb-4">
-                                        <Link to={`/user/${post.author_id}`}>
+                                        <Link to={`/user/${post.author_details.alias}`}>
                                             <div className="flex items-center space-x-3">
                                                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
                                                     {post.author_details.picture ? (
@@ -212,11 +210,9 @@ const BlogPage = () => {
                                     <div className="mt-auto">
                                         <div className="flex flex-wrap gap-2 mb-4">
                                             {post.tags.map(tag => (
-                                                <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                                    #{tag}
-                                </span>
+                                                <span key={tag} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">#{tag}</span>
                                             ))}
-                                        </div>
+                                    </div>
 
                                         <div className="flex justify-between items-center pt-3 border-t border-gray-100">
                                             <div className="flex items-center space-x-2">

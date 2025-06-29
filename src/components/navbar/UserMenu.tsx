@@ -3,13 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins} from '@fortawesome/free-solid-svg-icons';
 import {signInWithEmail, signOut} from "../../services/auth.service.js";
 import {Link} from "react-router-dom";
-import {getUserBalance, getUserEssentials} from "../../services/users.service.ts";
-import type {UserEssentials} from "../../types/userProfile.ts";
+import {getUserBalance} from "../../services/users.service.ts";
 import {useAuth} from "../../hooks/useAuth.ts";
 
 export const UserMenu = () => {
-    const { user, initialized } = useAuth();
-    const [essentials, setEssentials] = useState<UserEssentials | null>(null);
+    const { user, initialized, essentials } = useAuth();
     const [balance, setBalance] = useState(0); // Добавлено состояние для баланса
     const [loading, setLoading] = useState(true);
     const [email, setEmail] = useState('');
@@ -23,28 +21,16 @@ export const UserMenu = () => {
         async function fetch() {
             if (!user) {
                 setLoading(false);
-                setEssentials(null);
                 return;
             }
-
-            const details = await getUserEssentials(user.id);
-
-            if (details === null) {
-                setLoading(false)
-                setEssentials(null);
-                return;
-            }
-
-            setEssentials(details);
 
             const userBalance = await getUserBalance(user.id);
-
             setBalance(userBalance ?? 0);
             setLoading(false);
         }
 
         fetch();
-    }, [user]);
+    }, [user?.id]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -88,11 +74,7 @@ export const UserMenu = () => {
 
     return (
         <div className="relative" ref={dropdownRef}>
-            <button
-                onClick={() => setShowDropdown(!showDropdown)}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors overflow-hidden"
-                aria-label="Меню пользователя"
-            >
+            <button onClick={() => setShowDropdown(!showDropdown)} className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors overflow-hidden" aria-label="Меню пользователя">
                 {essentials?.picture ? (
                     <img
                         src={essentials?.picture}
@@ -128,7 +110,7 @@ export const UserMenu = () => {
                                         )}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <Link to={`/user/${user.id}`}>
+                                        <Link to={`/user/${essentials?.alias}`}>
                                             <p className="text-sm font-medium text-gray-900 truncate">{essentials?.name}</p>
                                         </Link>
                                         <p className="text-xs text-gray-500 truncate">{user.email}</p>
@@ -201,13 +183,11 @@ export const UserMenu = () => {
                                 </button>
                             </form>
                             <div className="mt-3 text-center">
-                                <button
-                                    type="button"
-                                    className="text-xs text-blue-600 hover:text-blue-800 font-medium"
-                                    onClick={() => alert('Форма регистрации')}
-                                >
-                                    Создать новый аккаунт
-                                </button>
+                                <Link to={'/register'}>
+                                    <button type="button" className="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                                        Создать новый аккаунт
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     )}
