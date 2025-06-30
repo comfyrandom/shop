@@ -14,7 +14,7 @@ interface TestimonialsProps {
 
 const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
 
-    const { user, initialized } = useAuth();
+    const { user, initialized, essentials } = useAuth();
     const [reviewList, setReviewList] = useState<Testimonial[]>(reviews);
     const [isWritingReview, setIsWritingReview] = useState(false);
     const [isEditingReview, setIsEditingReview] = useState(false);
@@ -76,7 +76,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
                     )
                     : [...reviewList, {
                         reviewer_id: user.id,
-                        reviewer_name: 'Вы',
+                        reviewer_alias: essentials?.alias ?? '#',
+                        reviewer_name: essentials?.name ?? 'Вы',
                         rating,
                         comment,
                         created_at: new Date().toISOString()
