@@ -228,7 +228,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ reviews, userId }) => {
                         <div key={index} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
                             <div className="flex justify-between items-start mb-2">
                                 <div>
-                                    <Link to={`/user/${review.reviewer_id}`} className="hover:underline">
+                                    <Link to={`/user/${review.reviewer_alias}`} className="hover:underline">
                                         <h3 className="font-semibold text-gray-800">{review.reviewer_name}</h3>
                                     </Link>
                                     <div className="flex items-center mt-1">

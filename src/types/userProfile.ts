@@ -12,6 +12,7 @@ export interface Certificate {
 export interface Testimonial {
     created_at: string,
     reviewer_id: string,
+    reviewer_alias: string,
     reviewer_name: string,
     rating: number,
     comment: string
