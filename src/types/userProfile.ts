@@ -36,9 +36,10 @@ export interface UserEssentials {
     picture: string;
 }
 
-export default interface UserProfile {
+export interface UserProfile {
     id: string;
     name: string;
+    alias: string;
     picture?: string;
     about: string,
     wearing_id?: number;

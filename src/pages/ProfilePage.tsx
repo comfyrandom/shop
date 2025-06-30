@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import type UserProfile from "../types/userProfile.ts";
 import {updateWearing, updatePinned } from "../services/profile.service.ts";
 import Header from "../components/profile-page/Header.tsx";
 import Wearing from "../components/profile-page/Wearing.tsx";
@@ -16,6 +15,7 @@ import {getUserProfile} from "../services/users.service.ts";
 import {updateSaleStatus} from "../services/products.service.ts";
 import {useAuth} from "../hooks/useAuth.ts";
 import Blogs from "../components/profile-page/Blogs.tsx";
+import type {UserProfile} from "../types/userProfile.ts";
 
 const ProfilePage = () => {
     const { alias } = useParams<{ alias: string }>();

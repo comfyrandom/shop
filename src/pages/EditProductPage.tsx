@@ -68,7 +68,7 @@ const EditProductPage = () => {
         };
 
         loadProduct();
-    }, [productAlias]);
+    }, [productAlias, user?.id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         if (!product) return;
@@ -589,7 +589,7 @@ const EditProductPage = () => {
     />;
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20"> {/* Добавлен дополнительный padding-bottom */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
             <div className="mb-8">
                 <h2 className="text-3xl font-bold text-gray-900">
                     Редактирование продукта

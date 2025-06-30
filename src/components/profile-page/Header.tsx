@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCalendarAlt,
@@ -6,17 +6,29 @@ import {
     faMapMarkerAlt,
     faStar,
     faUserSecret,
-    faUserTag
+    faUserTag,
+    faEdit
 } from "@fortawesome/free-solid-svg-icons";
 import {formatDuration } from "../../utils/dates.utils.ts";
 import {SocialLinks} from "./SocialLinks.tsx";
-import type UserProfile from "../../types/userProfile.ts";
+import type {UserProfile} from "../../types/userProfile.ts";
+import {useAuth} from "../../hooks/useAuth.ts";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
     profile: UserProfile;
 }
 
 const Header: React.FC<HeaderProps> = ({ profile }) => {
+    const {user, essentials} = useAuth();
+    const [userId, setUserId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setUserId(user?.id ?? null);
+    }, [user?.id]);
+
+    const navigate = useNavigate();
+
     const timeMs = (new Date()).getTime() - new Date(profile.join_date).getTime();
 
     const totalRating = profile.reviews?.reduce((sum, review) => sum + (review.rating ?? 0), 0) ?? 0;
@@ -26,6 +38,12 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
 
     const picture = profile?.picture ? profile.picture :
         profile.wearing_item?.picture ? profile.wearing_item.picture : undefined;
+
+    const isOwnProfile = userId === profile.id;
+
+    const handleEditProfile = () => {
+        navigate(`/editProfile/${essentials!.alias}`);
+    };
 
     return (
         <div className="bg-gradient-to-r from-red-50 to-blue-50 rounded-xl p-8 mb-8 shadow-lg">
@@ -48,6 +66,15 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
                                 <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-blue-600">
                                     {profile.name}
                                 </h1>
+                                {isOwnProfile && (
+                                    <button
+                                        onClick={handleEditProfile}
+                                        className="ml-4 bg-white text-gray-600 hover:text-gray-900 font-medium py-1 px-3 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors flex items-center shadow-sm"
+                                    >
+                                        <FontAwesomeIcon icon={faEdit} className="mr-2" />
+                                        Редактировать
+                                    </button>
+                                )}
                             </div>
                             <div className="flex items-center mt-2">
                                 <FontAwesomeIcon icon={faStar} className="text-yellow-400 mr-1" />

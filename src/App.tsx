@@ -14,6 +14,7 @@ import BlogPostCreatePage from "./pages/BlogPostCreatePage.tsx";
 import BlogPostEditPage from "./pages/BlogPostEditPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
 import PurchaseConfirmation from "./pages/PurchaseConfirmation.tsx";
+import EditProfilePage from "./pages/EditProfilePage.tsx";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/blog" element={<BlogPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/confirm-purchase/:productAlias" element={<PurchaseConfirmation />} />
+                    <Route path="/editProfile/:alias" element={<EditProfilePage />} />
                 </Routes>
             </div>
             <ToastContainer />

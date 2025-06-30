@@ -6,7 +6,6 @@ import Stats from "../components/product-page/Stats.tsx";
 import SectionCard from "../components/product-page/SectionCard.tsx";
 import Relationships from "../components/product-page/Relationships.tsx";
 import Accessories from "../components/product-page/Accessories.tsx";
-import CollectionCard from "../components/common/CollectionCard.tsx";
 import Appearance from "../components/product-page/Appearance.tsx";
 import Personality from "../components/product-page/Personality.tsx";
 import Extras from "../components/product-page/Extras.tsx";
@@ -118,16 +117,6 @@ const ProductPage = () => {
                         <SectionCard title="Аксесуары">
                             <Accessories accessories={product.details.accessories} />
                         </SectionCard>
-
-                        {product.collections && product.collections.length > 0 && (
-                            <SectionCard title="В коллекциях">
-                                <div className="flex flex-wrap gap-4">
-                                    {product.collections.map((collection, index) => (
-                                        <CollectionCard key={index} collection={collection} />
-                                    ))}
-                                </div>
-                            </SectionCard>
-                        )}
                     </div>
 
                     <div className="lg:w-2/3 space-y-6">

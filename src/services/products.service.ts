@@ -1,6 +1,5 @@
 import {supabase} from "./supabase.client.ts";
 import type {Product, ProductDetails} from "../types/product.ts";
-import type Collection from "../types/collection.ts";
 
 export interface ProductEssentials {
     id: number;
@@ -17,10 +16,6 @@ export interface ProductEssentials {
         alias: string;
         name: string;
     };
-}
-
-export interface CollectionResponse {
-    collection: Collection;
 }
 
 export const getProductEssentials = async (): Promise<ProductEssentials[]> => {
@@ -62,9 +57,6 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
         .from('products')
         .select(`*,
             details:product_details(*),
-            collections:product_collections(
-                collection:collections(*)
-            ),
             owner_details:user_details!owner_id(name, picture, about, alias),
             price:product_price (
                     price,
@@ -80,7 +72,6 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
 
     return {
         ...data,
-        collections: data.collections?.map((response: CollectionResponse) => response.collection) || [],
         price_history: data.price,
         price: data.price?.length
             ? [...data.price].sort((a, b) =>
@@ -95,9 +86,6 @@ export const getProductByAlias = async (alias: string): Promise<(Product & Produ
         .from('products')
         .select(`*,
             details:product_details(*),
-            collections:product_collections(
-                collection:collections(*)
-            ),
             owner_details:user_details!owner_id(name, picture, about, alias),
             price:product_price (
                     price,
@@ -113,7 +101,6 @@ export const getProductByAlias = async (alias: string): Promise<(Product & Produ
 
     return {
         ...data,
-        collections: data.collections?.map((response: CollectionResponse) => response.collection) || [],
         price_history: data.price,
         price: data.price?.length
             ? [...data.price].sort((a, b) =>

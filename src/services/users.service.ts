@@ -1,6 +1,5 @@
 import {supabase} from "./supabase.client.ts";
-import type UserProfile from "../types/userProfile.ts";
-import type { UserEssentials } from "../types/userProfile.ts";
+import type {UserEssentials, UserProfile} from "../types/userProfile.ts";
 
 const userEssentialsCache = new Map<string, UserEssentials | null>();
 const userEssentialsPromiseCache = new Map<string, Promise<UserEssentials | null>>();
