@@ -1,5 +1,3 @@
-import type Collection from "./collection.ts";
-
 export interface Product {
     id: number;
     name: string;
@@ -7,7 +5,6 @@ export interface Product {
     price: number;
     picture: string;
     description: string;
-    collections?: Collection[];
     owner_id: string;
     status: 'FOR_SALE' | 'NOT_FOR_SALE';
 }
