@@ -214,7 +214,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                kinks: updatedKinks.length > 0 ? updatedKinks : undefined
+                kinks: updatedKinks.length > 0 ? updatedKinks : []
             }
         });
     };
@@ -259,7 +259,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                scenarios: updatedScenarios.length > 0 ? updatedScenarios : undefined
+                scenarios: updatedScenarios.length > 0 ? updatedScenarios : []
             }
         });
     };
@@ -309,7 +309,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                extras: updatedExtras.length > 0 ? updatedExtras : undefined
+                extras: updatedExtras.length > 0 ? updatedExtras : []
             }
         });
     };
@@ -358,7 +358,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                history: updatedHistory.length > 0 ? updatedHistory : undefined
+                history: updatedHistory.length > 0 ? updatedHistory : []
             }
         });
     };
@@ -407,7 +407,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                relationships: updatedRelationships.length > 0 ? updatedRelationships : undefined
+                relationships: updatedRelationships.length > 0 ? updatedRelationships : []
             }
         });
     };
@@ -455,7 +455,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                badges: updatedBadges.length > 0 ? updatedBadges : undefined
+                badges: updatedBadges.length > 0 ? updatedBadges : []
             }
         });
     };
@@ -503,7 +503,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                features: updatedFeatures.length > 0 ? updatedFeatures : undefined
+                features: updatedFeatures.length > 0 ? updatedFeatures : []
             }
         });
     };
@@ -554,7 +554,7 @@ const EditProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                accessories: updatedAccessories.length > 0 ? updatedAccessories : undefined
+                accessories: updatedAccessories.length > 0 ? updatedAccessories : []
             }
         });
     };

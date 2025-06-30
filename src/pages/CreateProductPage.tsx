@@ -158,7 +158,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                [arrayName]: updatedArray.length > 0 ? updatedArray : undefined
+                [arrayName]: updatedArray.length > 0 ? updatedArray : []
             }
         });
     };
@@ -218,8 +218,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                kinks: updatedKinks.length > 0 ? updatedKinks : undefined
+                kinks: updatedKinks.length > 0 ? updatedKinks : []
             }
         });
     };
@@ -262,8 +261,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                scenarios: updatedScenarios.length > 0 ? updatedScenarios : undefined
+                scenarios: updatedScenarios.length > 0 ? updatedScenarios : []
             }
         });
     };
@@ -311,8 +309,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                extras: updatedExtras.length > 0 ? updatedExtras : undefined
+                extras: updatedExtras.length > 0 ? updatedExtras : []
             }
         });
     };
@@ -359,8 +356,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                history: updatedHistory.length > 0 ? updatedHistory : undefined
+                history: updatedHistory.length > 0 ? updatedHistory : []
             }
         });
     };
@@ -407,8 +403,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                relationships: updatedRelationships.length > 0 ? updatedRelationships : undefined
+                relationships: updatedRelationships.length > 0 ? updatedRelationships : []
             }
         });
     };
@@ -454,8 +449,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                badges: updatedBadges.length > 0 ? updatedBadges : undefined
+                badges: updatedBadges.length > 0 ? updatedBadges : []
             }
         });
     };
@@ -501,8 +495,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                features: updatedFeatures.length > 0 ? updatedFeatures : undefined
+                features: updatedFeatures.length > 0 ? updatedFeatures : []
             }
         });
     };
@@ -551,8 +544,7 @@ const CreateProductPage = () => {
             ...product,
             details: {
                 ...product.details,
-                //@ts-expect-error: Приведение типов пройдет нормально
-                accessories: updatedAccessories.length > 0 ? updatedAccessories : undefined
+                accessories: updatedAccessories.length > 0 ? updatedAccessories : []
             }
         });
     };

@@ -1,7 +1,7 @@
 import Badge from "../common/Badge.tsx";
 import BadgeWithIcon from "../common/BadgeWithIcon.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGem, faLemon} from "@fortawesome/free-solid-svg-icons";
+import {faGem} from "@fortawesome/free-solid-svg-icons";
 import type {Product, ProductDetails} from '../../types/product.ts';
 import React, {useState} from "react";
 import PictureModal from "./PictureModal.tsx";
@@ -12,8 +12,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({product}) => {
     const [showFullImage, setShowFullImage] = useState(false);
-
-    const hasNoOwners = true;
     const hasExtras = product.details?.extras !== undefined && product.details.extras !== null && product.details.extras.length > 0;
 
     return (
@@ -53,14 +51,6 @@ const Header: React.FC<HeaderProps> = ({product}) => {
                             )}
 
                             <div className="flex flex-wrap justify-center gap-3 mt-4">
-                                {hasNoOwners && (
-                                    <BadgeWithIcon
-                                        text="НОВАЯ ПЕРСОНА"
-                                        backgroundColor="bg-amber-400"
-                                        icon={<FontAwesomeIcon icon={faLemon} className="w-3 h-3" />}
-                                        glow={true}
-                                    />
-                                )}
                                 {hasExtras && (
                                     <BadgeWithIcon
                                         text="С ДОПОЛНИТЕЛЬНЫМИ АКСЕССУАРАМИ"
@@ -78,14 +68,6 @@ const Header: React.FC<HeaderProps> = ({product}) => {
                  style={{backgroundImage: `url(${product.picture})`}}>
                 <div className="absolute backdrop-blur-sm rounded-t-4xl inset-0 bg-gradient-to-t bg-white/80 to-transparent flex items-end px-8 pb-6">
                     <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 flex gap-4">
-                        {hasNoOwners && (
-                            <BadgeWithIcon
-                                text="НОВАЯ ПЕРСОНА"
-                                backgroundColor="bg-amber-400"
-                                icon={<FontAwesomeIcon icon={faLemon} className="w-3 h-3" />}
-                                glow={true}
-                            />
-                        )}
                         {hasExtras &&
                             <BadgeWithIcon text="С ДОПОЛНИТЕЛЬНЫМИ АКСЕССУАРАМИ" backgroundColor="bg-indigo-500"
                                            icon={<FontAwesomeIcon icon={faGem} className="w-3 h-3" />}/>

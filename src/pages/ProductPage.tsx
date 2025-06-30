@@ -96,17 +96,18 @@ const ProductPage = () => {
                             </SectionCard>
                         )}
 
+                        {product.details &&
+                            <SectionCard title="Характеристики" className={'relative'}>
+                                <Stats product={product}/>
+                            </SectionCard>
+                        }
+
                         {product.passport_data &&
                             <SectionCard title="Паспортные данные" className="overflow-hidden">
                                 <Passport passport={product.passport_data} />
                             </SectionCard>
                         }
 
-                        {product.details &&
-                            <SectionCard title="Характеристики" className={'relative'}>
-                                <Stats product={product}/>
-                            </SectionCard>
-                        }
 
                         {product.details?.relationships && product.details.relationships.length > 0 &&
                             <SectionCard title="Отношения">
