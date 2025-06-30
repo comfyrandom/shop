@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFingerprint, faIdCard} from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import type { PassportData } from '../../types/product';
+import {useAuth} from "../../hooks/useAuth.ts";
 
 interface PassportProps {
     passport: PassportData;
 }
 
 const Passport : React.FC<PassportProps> = ({passport}) => {
+
+    const { user } = useAuth();
+    const [authorized, setAuthorized] = useState<boolean>(false);
+
+    useEffect(() => {
+        setAuthorized(!!user);
+    }, [user?.id])
 
     const redactLastName = (name: string) => {
         if (!name) return '';
@@ -34,9 +42,9 @@ const Passport : React.FC<PassportProps> = ({passport}) => {
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-800 text-base leading-tight">
-                        {passport.last_name ? redactLastName(passport.last_name) : ''} {passport.first_name ?? ''} {passport.middle_name ?? ''}
+                        {passport.last_name ? (authorized ? passport.last_name : redactLastName(passport.last_name)) : ''} {passport.first_name ?? ''} {passport.middle_name ?? ''}
                     </h3>
-                    <p className="text-xs text-gray-500 mt-0.5">№ {redactPassportNumber(passport.passport_number)}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">№ {authorized ? passport.passport_number : redactPassportNumber(passport.passport_number)}</p>
                 </div>
             </div>
 
@@ -54,7 +62,7 @@ const Passport : React.FC<PassportProps> = ({passport}) => {
                 {passport.issue_date &&
                     <div className="bg-white/80 p-2 rounded col-span-2">
                         <p className="text-xs text-gray-500 mb-1">Дата выдачи</p>
-                        <p className="font-medium leading-tight">{passport.issue_date}</p>
+                        <p className="font-medium leading-tight">{moment(passport.issue_date).format('DD.MM.yyyy')}</p>
                     </div>
                 }
 

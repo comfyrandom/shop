@@ -62,6 +62,7 @@ const CreateProductPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showImportModal, setShowImportModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [jsonInput, setJsonInput] = useState('');
     const [jsonError, setJsonError] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -575,7 +576,7 @@ const CreateProductPage = () => {
 
             if (createdProduct) {
                 toast.success("Продукт успешно создан", toastOptions);
-                navigate(`/product/${createdProduct}`);
+                setShowSuccessModal(true);
             } else {
                 toast.error("Не удалось создать продукт", toastOptions);
             }
@@ -746,6 +747,29 @@ const CreateProductPage = () => {
                                     className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                                 >
                                     Импортировать
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {showSuccessModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                        <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                            <h3 className="text-xl font-bold mb-4">Продукт отправлен на модерацию</h3>
+                            <p className="mb-6">
+                                Ваш продукт был успешно создан и отправлен на модерацию.
+                                Он станет доступен для просмотра после одобрения модератором.
+                            </p>
+                            <div className="flex justify-end">
+                                <button
+                                    onClick={() => {
+                                        setShowSuccessModal(false);
+                                        navigate('/');
+                                    }}
+                                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                                >
+                                    На главную
                                 </button>
                             </div>
                         </div>

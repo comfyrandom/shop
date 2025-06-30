@@ -33,7 +33,7 @@ const ProfilePage = () => {
 
     const handlePinChange = async (productId: number, isPinned: boolean) => {
         try {
-            const result = await updatePinned(alias!, productId, isPinned);
+            const result = await updatePinned(user!.id, productId, isPinned);
 
             if (result === true) {
                 setProfile(prev => {
@@ -104,7 +104,7 @@ const ProfilePage = () => {
 
     const handleWearStatusChange = async (productId: number, isWearing: boolean) => {
         try {
-            const result = await updateWearing(alias!, isWearing ? productId : undefined);
+            const result = await updateWearing(user!.id, isWearing ? productId : undefined);
 
             if (result) {
                 setProfile(prev => {

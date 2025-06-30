@@ -24,7 +24,7 @@ import Passport from "../components/product-page/Passport.tsx";
 
 const ProductPage = () => {
 
-    const { productId } = useParams<{ productId: string }>();
+    const { productAlias } = useParams<{ productAlias: string }>();
     const [product, setProduct] = useState<Product & ProductDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +34,7 @@ const ProductPage = () => {
             try {
                 setError(null);
 
-                if (productId == undefined) {
+                if (productAlias == undefined) {
                     setError("Не удалось загрузить данные о продукте");
                     setLoading(false);
                     return;
@@ -42,10 +42,10 @@ const ProductPage = () => {
 
                 let result;
 
-                if (/^\d/.test(productId || '')) {
-                    result = await getProductById(Number(productId));
+                if (/^\d/.test(productAlias || '')) {
+                    result = await getProductById(Number(productAlias));
                 } else {
-                    result = await getProductByAlias(productId);
+                    result = await getProductByAlias(productAlias);
                 }
 
                 if (result === undefined) {
@@ -65,7 +65,7 @@ const ProductPage = () => {
         };
 
         fetchProduct();
-    }, [productId]);
+    }, [productAlias]);
 
     if (loading) return <LoadingCard message="Загружаем продукт..." />;
     if (error) return <ErrorCard error={error} onRetry={() => window.location.reload()} />;
@@ -85,7 +85,9 @@ const ProductPage = () => {
                         {product.owner_id && product.owner_details && (
                             <SectionCard title="Текущий владелец">
                                 <CurrentOwner
+                                    productAlias={product.alias}
                                     ownerId={product.owner_id}
+                                    ownerAlias={product.owner_details.alias}
                                     name={product.owner_details.name}
                                     picture={product.owner_details.picture}
                                     description={product.owner_details.about}
@@ -175,7 +177,7 @@ const ProductPage = () => {
                         }
 
                         {product.details?.extras && product.details?.extras.length > 0 &&
-                            <SectionCard title="Premium Extras">
+                            <SectionCard title="Премиальные дополнения">
                                 <Extras extras={product.details.extras} />
                             </SectionCard>
                         }

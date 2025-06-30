@@ -29,6 +29,7 @@ export interface PassportData {
 export interface ProductDetails {
     owner_details: {
         name: string;
+        alias: string;
         picture: string;
         about: string;
     },

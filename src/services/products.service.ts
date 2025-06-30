@@ -65,7 +65,7 @@ export const getProductById = async (id: number): Promise<(Product & ProductDeta
             collections:product_collections(
                 collection:collections(*)
             ),
-            owner_details:user_details!owner_id(name, picture, about),
+            owner_details:user_details!owner_id(name, picture, about, alias),
             price:product_price (
                     price,
                     created_at
@@ -98,7 +98,7 @@ export const getProductByAlias = async (alias: string): Promise<(Product & Produ
             collections:product_collections(
                 collection:collections(*)
             ),
-            owner_details:user_details!owner_id(name, picture, about),
+            owner_details:user_details!owner_id(name, picture, about, alias),
             price:product_price (
                     price,
                     created_at
@@ -253,3 +253,28 @@ export async function updateProduct(product: Product & ProductDetails) {
 
     return data;
 }
+
+export interface PurchaseResult {
+    success?: boolean;
+    error?: string;
+    message?: string;
+    transaction_id?: string;
+}
+
+export async function purchaseProduct(product_id: number, price: number) : Promise<PurchaseResult> {
+    const { data, error } = await supabase
+        .rpc('purchase_product', {
+            p_product_id: product_id,
+            p_price: price
+        });
+
+    if (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    } else {
+        return data;
+    }
+}
+

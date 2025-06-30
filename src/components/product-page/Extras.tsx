@@ -28,7 +28,7 @@ const Extras: React.FC<ExtrasProps> = ({ extras }) => {
                                 <span
                                     className="text-xs bg-gradient-to-r from-blue-400 to-blue-600 text-white px-2 py-1 rounded-full flex items-center gap-1">
                                     <FontAwesomeIcon icon={faCrown} className="w-3 h-3"/>
-                                    EXCLUSIVE
+                                    ЭКСКЛЮЗИВНО
                                 </span>
                             )}
                         </div>
@@ -37,7 +37,7 @@ const Extras: React.FC<ExtrasProps> = ({ extras }) => {
 
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col">
-                                <span className="text-xs text-gray-500 mb-1">VALUE ESTIMATE</span>
+                                <span className="text-xs text-gray-500 mb-1">ПРИМЕРНАЯ СТОИМОСТЬ</span>
                                 <div
                                     className="px-3 py-2 bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg flex items-center gap-2">
                                     <FontAwesomeIcon icon={faCoins} className="w-3 h-3 text-amber-500"/>
@@ -46,9 +46,6 @@ const Extras: React.FC<ExtrasProps> = ({ extras }) => {
                                     </span>
                                 </div>
                             </div>
-                            {extra.exclusive && (
-                                <span className="text-xs text-blue-800/80 self-end mb-1">Limited availability</span>
-                            )}
                         </div>
                     </div>
                 </div>

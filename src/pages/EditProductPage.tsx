@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Product, ProductDetails } from "../types/product";
-import { getProductById, updateProduct } from "../services/products.service";
+import {getProductByAlias, updateProduct} from "../services/products.service";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,7 @@ const toastOptions: ToastOptions = {
 
 const EditProductPage = () => {
     const { user, initialized } = useAuth();
-    const { productId } = useParams<{ productId: string }>();
+    const { productAlias } = useParams<{ productAlias: string }>();
     const [product, setProduct] = useState<Product & ProductDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -43,7 +43,12 @@ const EditProductPage = () => {
 
                 setLoading(true);
 
-                const data = await getProductById(Number(productId));
+                if (!productAlias) {
+                    setError('Идентификатор продукта не указан')
+                    return;
+                }
+
+                const data = await getProductByAlias(productAlias);
 
                 if (data === undefined)
                     return;
@@ -63,7 +68,7 @@ const EditProductPage = () => {
         };
 
         loadProduct();
-    }, [productId]);
+    }, [productAlias]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         if (!product) return;

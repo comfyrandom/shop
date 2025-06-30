@@ -8,7 +8,7 @@ import {useAuth} from "../../hooks/useAuth.ts";
 
 export const UserMenu = () => {
     const { user, initialized, essentials } = useAuth();
-    const [balance, setBalance] = useState(0); // Добавлено состояние для баланса
+    const [balance, setBalance] = useState(0);
     const [loading, setLoading] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
