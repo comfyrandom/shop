@@ -22,8 +22,6 @@ export const getUserEssentials = (userId: string): Promise<UserEssentials | null
                 .eq('id', userId)
                 .single();
 
-            console.log('Performing user fetch')
-            ;
             if (error) {
                 console.error(error);
                 userEssentialsCache.set(userId, null);

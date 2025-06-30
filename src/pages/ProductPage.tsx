@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 import type {Product, ProductDetails} from "../types/product.ts";
 import Header from "../components/product-page/Header.tsx";
-import Footer from "../components/product-page/Footer.tsx";
 import Stats from "../components/product-page/Stats.tsx";
 import SectionCard from "../components/product-page/SectionCard.tsx";
 import Relationships from "../components/product-page/Relationships.tsx";
@@ -54,7 +53,6 @@ const ProductPage = () => {
                 }
 
                 setProduct(result);
-                console.log(result);
                 setLoading(false);
             } catch (err) {
                 console.error(err);
@@ -75,7 +73,7 @@ const ProductPage = () => {
     />;
 
     return (
-        <div className="bg-white text-gray-800 rounded-4xl mt-4 shadow-md">
+        <div className="bg-white text-gray-800 rounded-4xl mt-4 shadow-md mb-20">
             <Header product={product}/>
             <div className="max-w-110xl mx-auto px-6 py-8">
                 <div className="flex flex-col lg:flex-row gap-6">
@@ -189,8 +187,6 @@ const ProductPage = () => {
                         </SectionCard>
                     </div>
                 </div>
-
-                {product.status === 'FOR_SALE' && <Footer price={product.price}/>}
             </div>
         </div>
     );
