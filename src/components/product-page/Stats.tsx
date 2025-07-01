@@ -7,10 +7,33 @@ interface StatsProps {
 }
 
 const Stats: React.FC<StatsProps> = ({product}) => {
+
+    const calculateAge = (birthDate: string): number => {
+        const birthDateObj = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDateObj.getFullYear();
+        const monthDiff = today.getMonth() - birthDateObj.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
+            age--;
+        }
+
+        return age;
+    };
+
+    const getAge = (): string => {
+        if (product.passport_data?.date_of_birth) {
+            return calculateAge(product.passport_data.date_of_birth).toString();
+        }
+        return product.details?.age?.toString() || '';
+    };
+
+    const ageValue = getAge();
+
     return (
         <>
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 text-gray-800">
-                {product.details?.age && product.details.age > 0 && <StatItem value={product.details.age.toString()} label="Возраст"/>}
+                {ageValue && parseInt(ageValue) > 0 && <StatItem value={ageValue} label="Возраст"/>}
                 {product.details.height > 0 && <StatItem value={`${product.details.height} м`} label="Рост"/>}
                 {product.details.weight > 0 && <StatItem value={`${product.details.weight} кг`} label="Вес"/>}
                 {product.details?.biometry && (

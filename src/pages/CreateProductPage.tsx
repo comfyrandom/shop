@@ -57,7 +57,7 @@ const initialProductState : ProductCreation = {
 
 const CreateProductPage = () => {
 
-    const { user, initialized } = useAuth();
+    const { user, initialized, essentials } = useAuth();
     const [product, setProduct] = useState<ProductCreation>(initialProductState);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -748,20 +748,21 @@ const CreateProductPage = () => {
                 {showSuccessModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
                         <div className="bg-white rounded-lg p-6 max-w-md w-full">
-                            <h3 className="text-xl font-bold mb-4">Продукт отправлен на модерацию</h3>
+                            <h3 className="text-xl font-bold mb-4">Шкура создана!</h3>
                             <p className="mb-6">
-                                Ваш продукт был успешно создан и отправлен на модерацию.
-                                Он станет доступен для просмотра после одобрения модератором.
+                                Ваша шкура была успешно создана и добавлена в ваш профиль!
+                                На ваш счет зачислено 100 монет!
                             </p>
                             <div className="flex justify-end">
                                 <button
                                     onClick={() => {
                                         setShowSuccessModal(false);
-                                        navigate('/');
+                                        navigate(`/user/${essentials?.alias}`);
+                                        window.location.reload();
                                     }}
                                     className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                                 >
-                                    На главную
+                                    Перейти в свой профиль
                                 </button>
                             </div>
                         </div>

@@ -29,7 +29,7 @@ const ProductCard = ({ product } : ProductCardProps) => {
                     <span className="text-gray-600 font-medium">Цена:</span>
                     <div className="flex items-center">
                         <FontAwesomeIcon icon={faBitcoin} className="text-yellow-500 mr-2 text-lg" />
-                        <span className="text-xl font-bold text-gray-900">{product.price.toFixed(2)}</span>
+                        <span className="text-xl font-bold text-gray-900">{product.price.toFixed(0)}</span>
                     </div>
                 </div>
 
