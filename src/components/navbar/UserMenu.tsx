@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins, faUser} from '@fortawesome/free-solid-svg-icons';
 import {signInWithEmail, signOut} from "../../services/auth.service.js";
 import {Link} from "react-router-dom";
 import {getUserBalance} from "../../services/users.service.ts";
@@ -136,10 +136,18 @@ export const UserMenu = () => {
                                 </Link>
                             </div>
 
-                            <div className="p-2">
+                            <div className="p-2 space-y-1">
+                                <Link to={`/user/${essentials?.alias}`}>
+                                    <button
+                                        className="w-full py-2 px-3 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 flex items-center justify-start transition-colors"
+                                    >
+                                        <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-500" />
+                                        Перейти в профиль
+                                    </button>
+                                </Link>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full py-2 px-3 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 flex items-center justify-center transition-colors"
+                                    className="w-full py-2 px-3 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 flex items-center justify-start transition-colors"
                                 >
                                     <FontAwesomeIcon icon={faSignOutAlt} className="mr-2 text-gray-500" />
                                     Выйти из аккаунта
