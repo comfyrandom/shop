@@ -13,7 +13,16 @@ const Stats: React.FC<StatsProps> = ({product}) => {
                 {product.details?.age && product.details.age > 0 && <StatItem value={product.details.age.toString()} label="Возраст"/>}
                 {product.details.height > 0 && <StatItem value={`${product.details.height} м`} label="Рост"/>}
                 {product.details.weight > 0 && <StatItem value={`${product.details.weight} кг`} label="Вес"/>}
-                {product.details?.biometry && <StatItem value={product.details.biometry} label="Биометрия"/>}
+                {product.details?.biometry && (
+                    <StatItem
+                        value={
+                            product.details.biometry.endsWith('%')
+                                ? product.details.biometry
+                                : `${product.details.biometry}%`
+                        }
+                        label="Биометрия"
+                    />
+                )}
                 {product.details?.max_wear && <StatItem value={product.details.max_wear} label="Макс. время"/>}
                 {product.details?.condition && <StatItem value={product.details.condition} label="Состояние"/>}
                 {product.details?.background && <StatItem className={'col-span-full'} textSize={'lg'} value={product.details.background} label="Происхождение"/>}
