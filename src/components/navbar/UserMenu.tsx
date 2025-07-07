@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faUserCircle, faSignOutAlt, faWallet, faPlus, faCoins, faUser, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {signInWithEmail, signOut} from "../../services/auth.service.js";
 import {Link} from "react-router-dom";
 import {getUserBalance} from "../../services/users.service.ts";
@@ -143,6 +143,14 @@ export const UserMenu = () => {
                                     >
                                         <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-500" />
                                         Перейти в профиль
+                                    </button>
+                                </Link>
+                                <Link to="/invites">
+                                    <button
+                                        className="w-full py-2 px-3 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 flex items-center justify-start transition-colors"
+                                    >
+                                        <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-gray-500" />
+                                        Создать приглашение
                                     </button>
                                 </Link>
                                 <button
