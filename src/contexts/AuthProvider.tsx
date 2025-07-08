@@ -4,6 +4,7 @@ import { supabase } from "../services/supabase.client.ts";
 import { AuthContext } from "./AuthContext.tsx";
 import type { UserEssentials } from "../types/userProfile.ts";
 import { getUserEssentials } from "../services/users.service.ts";
+import {broadcastService} from "../services/broadcast.service.ts";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
@@ -36,15 +37,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange(async (_event, session) => {
-            // Avoid duplicate fetch if it's the initial call
-            if (!hasInitialized.current) return;
+            if (!hasInitialized.current)
+                return;
 
             const currentUser = session?.user ?? null;
             setSession(session);
             setUser(currentUser);
-            if (currentUser) fetchEssentials(currentUser.id);
-            else setEssentials(null);
+
+            if (currentUser)
+                fetchEssentials(currentUser.id);
+            else
+                setEssentials(null);
+
             setInitialized(true);
+            broadcastService.setCurrentUser(currentUser?.id ?? null);
         });
 
         return () => {

@@ -45,6 +45,10 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
         navigate(`/editProfile/${essentials!.alias}`);
     };
 
+    const handleSendMessage = () => {
+        navigate(`/messages/${profile.alias}`);
+    };
+
     return (
         <div className="bg-gradient-to-r from-red-50 to-blue-50 rounded-xl p-8 mb-8 shadow-lg">
             <div className="flex flex-col lg:flex-row items-start">
@@ -83,14 +87,21 @@ const Header: React.FC<HeaderProps> = ({ profile }) => {
                             </div>
                         </div>
 
-                        <div className="flex hidden space-x-3 mt-4 lg:mt-0">
-                            <button className="bg-white text-gray-800 font-medium py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors flex items-center shadow-sm">
-                                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                                Сообщение
-                            </button>
-                            <button className="bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-full shadow-md transition-all transform hover:scale-105">
-                                Подписаться
-                            </button>
+                        <div className="flex space-x-3 mt-4 lg:mt-0">
+                            {!isOwnProfile && (
+                                <>
+                                    <button
+                                        onClick={handleSendMessage}
+                                        className="bg-white text-gray-800 font-medium py-2 px-4 rounded-full border border-gray-300 hover:bg-gray-100 transition-colors flex items-center shadow-sm"
+                                    >
+                                        <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                                        Личное сообщение
+                                    </button>
+                                    <button className="hidden bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white font-medium py-2 px-6 rounded-full shadow-md transition-all transform hover:scale-105">
+                                        Подписаться
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
 

@@ -19,34 +19,44 @@ import InviteCodePage from "./pages/InviteCodePage.tsx";
 import ChatPage from "./pages/ChatPage.tsx";
 
 function App() {
-  return (
-    <HashRouter>
-        <AuthProvider>
-            <Header />
-            <div className="main-content container mx-auto px-4 md:px-16 lg:px-20 max-w-[1280px] max-lg:m-0 max-lg:mt-25 mt-25 flex-1 mb-10">
+    return (
+        <HashRouter>
+            <AuthProvider>
                 <Routes>
-                    <Route path="/" element={<BlogPage />} />
-                    <Route path="/about" element={<HomePage />} />
-                    <Route path="/catalog" element={<CatalogPage />} />
-                    <Route path="/product/:productAlias" element={<ProductPage />} />
-                    <Route path="/editProduct/:productAlias" element={<EditProductPage />} />
-                    <Route path="/createProduct" element={<CreateProductPage />} />
-                    <Route path="/user/:alias" element={<ProfilePage />} />
-                    <Route path="/blog/:postId" element={<BlogPostPage />} />
-                    <Route path="/blog/create" element={<BlogPostCreatePage />} />
-                    <Route path="/blog/edit/:postId" element={<BlogPostEditPage />} />
-                    <Route path="/blog" element={<BlogPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/confirm-purchase/:productAlias" element={<PurchaseConfirmation />} />
-                    <Route path="/editProfile/:alias" element={<EditProfilePage />} />
-                    <Route path="/invites" element={<InviteCodePage />} />
-                    <Route path="/chat" element={<ChatPage />} />
+                    {/* Route for ChatPage without Header and main-content */}
+                    <Route path="/messages/:userAlias" element={<ChatPage />} />
+                    <Route path="/messages" element={<ChatPage />} />
+
+                    {/* All other routes with Header and main-content */}
+                    <Route path="*" element={
+                        <>
+                            <Header />
+                            <div className="main-content container mx-auto px-4 md:px-16 lg:px-20 max-w-[1280px] max-lg:m-0 max-lg:mt-25 mt-25 flex-1 mb-10">
+                                <Routes>
+                                    <Route path="/" element={<BlogPage />} />
+                                    <Route path="/about" element={<HomePage />} />
+                                    <Route path="/catalog" element={<CatalogPage />} />
+                                    <Route path="/product/:productAlias" element={<ProductPage />} />
+                                    <Route path="/editProduct/:productAlias" element={<EditProductPage />} />
+                                    <Route path="/createProduct" element={<CreateProductPage />} />
+                                    <Route path="/user/:alias" element={<ProfilePage />} />
+                                    <Route path="/blog/:postId" element={<BlogPostPage />} />
+                                    <Route path="/blog/create" element={<BlogPostCreatePage />} />
+                                    <Route path="/blog/edit/:postId" element={<BlogPostEditPage />} />
+                                    <Route path="/blog" element={<BlogPage />} />
+                                    <Route path="/register" element={<RegisterPage />} />
+                                    <Route path="/confirm-purchase/:productAlias" element={<PurchaseConfirmation />} />
+                                    <Route path="/editProfile/:alias" element={<EditProfilePage />} />
+                                    <Route path="/invites" element={<InviteCodePage />} />
+                                </Routes>
+                            </div>
+                        </>
+                    } />
                 </Routes>
-            </div>
-            <ToastContainer />
-        </AuthProvider>
-    </HashRouter>
-  )
+                <ToastContainer />
+            </AuthProvider>
+        </HashRouter>
+    )
 }
 
 export default App

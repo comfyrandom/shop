@@ -80,6 +80,23 @@ export const getUserProfile = async (alias: string): Promise<UserProfile | undef
     return data;
 }
 
+export const getUserId = async (alias: string): Promise<string | null> => {
+    const { data, error } = await supabase
+        .from('user_details')
+        .select(`id`)
+        .eq('alias', alias)
+        .single();
+
+    if (error) {
+        console.error(error);
+        return null;
+    }
+    if (!data) {
+        return null;
+    }
+
+    return data.id;
+}
 
 export const createUser = async (name: string, email: string, password: string, alias: string, invite_code: string): Promise<{status: boolean, error?: Error}> => {
     const { data, error } = await supabase.auth.signUp({
