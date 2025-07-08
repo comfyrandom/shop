@@ -366,7 +366,7 @@ export const ChatComponent = () => {
                                         ? 'bg-blue-500 text-white rounded-tr-none'
                                         : 'bg-white border border-gray-200 rounded-tl-none'}`}
                                 >
-                                    <p className="text-sm">{message.text}</p>
+                                    <p className="text-sm" style={{ whiteSpace: 'pre-line' }}>{message.text}</p>
                                     <div className={`flex items-center justify-end mt-1 space-x-1 ${message.sender_id === user?.id ? 'text-blue-100' : 'text-gray-500'}`}>
                                         <span className="text-xs">
                                             {new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -433,7 +433,7 @@ export const ChatComponent = () => {
                         <h2 className="text-xl font-bold mb-4">Начать новый диалог</h2>
                         <div className="mb-4">
                             <label htmlFor="userAlias" className="block text-sm font-medium text-gray-700 mb-1">
-                                Введите alias пользователя
+                                Введите @имя.пользователя
                             </label>
                             <input
                                 type="text"
