@@ -3,7 +3,7 @@ import type { Product, ProductDetails } from "../types/product";
 import {getProductByAlias, updateProduct} from "../services/products.service";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import {faFileExport, faSave} from '@fortawesome/free-solid-svg-icons';
 import { ErrorCard, LoadingCard, WarningCard } from "../components/common/StatusCards";
 import BasicEditor from "../components/product-editor/BasicEditor.tsx";
 import SectionCard from "../components/product-editor/SectionCard.tsx";
@@ -544,6 +544,22 @@ const EditProductPage = () => {
         });
     };
 
+    const handleExportJson = () => {
+        if (!product) return;
+
+        const jsonString = JSON.stringify(product, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${product.alias || 'product'}_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     const handleRemoveAccessory = (index: number) => {
         if (!product || !product.details.accessories) return;
 
@@ -590,10 +606,19 @@ const EditProductPage = () => {
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
-            <div className="mb-8">
+            <div className="mb-8 flex justify-between items-center">
                 <h2 className="text-3xl font-bold text-gray-900">
                     Редактирование продукта
                 </h2>
+                <button
+                    type="button"
+                    onClick={handleExportJson}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                    disabled={!product}
+                >
+                    <FontAwesomeIcon icon={faFileExport} className="mr-2" />
+                    Экспортировать в JSON
+                </button>
             </div>
 
             <form id="product-form" onSubmit={handleSubmit} className="space-y-8">

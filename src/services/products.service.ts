@@ -6,6 +6,9 @@ export interface ProductEssentials {
     name: string;
     alias: string;
     price: number;
+    certificates?: Array<{
+        certificate_id: number;
+    }>,
     price_history: Array<{
         price: number;
         created_at: string;
@@ -31,7 +34,8 @@ export const getProductEssentials = async (): Promise<ProductEssentials[]> => {
                 price:latest_product_price (
                     price,
                     created_at
-                )
+                ),
+                certificates:products_certificates(certificate_id)
         `)
         .eq("status", "FOR_SALE");
 

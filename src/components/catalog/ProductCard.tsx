@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faInfoCircle, faUser, faCertificate } from "@fortawesome/free-solid-svg-icons";
 import { faBitcoin } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 import type {ProductEssentials} from "../../services/products.service.ts";
@@ -13,6 +13,12 @@ const ProductCard = ({ product } : ProductCardProps) => {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-md transition-all duration-300 flex flex-col h-full">
 
             <div className="relative overflow-hidden">
+                {product.certificates && (
+                    <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center z-10">
+                        <FontAwesomeIcon icon={faCertificate} className="mr-1" />
+                        Доступ по сертификату
+                    </div>
+                )}
                 <Link to={`/product/${product.alias}`}>
                     <img
                         src={product.picture}
