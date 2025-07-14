@@ -12,17 +12,26 @@ import Scenarios from "../components/product-page/Scenarios.tsx";
 import History from "../components/product-page/History.tsx";
 import Tag from "../components/common/Tag.tsx";
 import Features from "../components/product-page/Features.tsx";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {getProductByAlias, getProductById} from "../services/products.service.ts";
 import CurrentOwner from "../components/product-page/CurrentOwner.tsx";
 import {ErrorCard, LoadingCard, WarningCard} from "../components/common/StatusCards.tsx";
 import PriceHistoryChart from "../components/product-page/PriceHistoryChart.tsx";
 import Markdown from "react-markdown";
 import Passport from "../components/product-page/Passport.tsx";
+import {useAuth} from "../hooks/useAuth.ts";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+    faCog,
+    faEdit,
+    faExchangeAlt,
+    faTags
+} from "@fortawesome/free-solid-svg-icons";
 
 const ProductPage = () => {
 
     const { productAlias } = useParams<{ productAlias: string }>();
+    const { user } = useAuth();
     const [product, setProduct] = useState<Product & ProductDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -79,6 +88,45 @@ const ProductPage = () => {
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div className="lg:w-3/8 space-y-6">
 
+                        {user?.id === product.owner_id && (
+                            <SectionCard title="Управление продуктом">
+                                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-3 rounded-lg">
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <Link to={`/editProduct/${product.alias}`}>
+                                            <button className="cursor-pointer bg-white/80 hover:bg-white p-3 rounded-lg flex flex-col items-center justify-center transition-colors">
+                                                <FontAwesomeIcon
+                                                    icon={faEdit}
+                                                    className="text-blue-500 text-lg mb-2"
+                                                />
+                                                <span className="text-sm font-medium">Редактировать</span>
+                                            </button>
+                                        </Link>
+                                        <button className="bg-gray-200 p-3 rounded-lg flex flex-col items-center justify-center transition-colors">
+                                            <FontAwesomeIcon
+                                                icon={faTags}
+                                                className="text-purple-500 text-lg mb-2"
+                                            />
+                                            <span className="text-sm font-medium">Изменить цену</span>
+                                        </button>
+                                        <button disabled className="hidden bg-white/80 hover:bg-white p-3 rounded-lg flex flex-col items-center justify-center transition-colors">
+                                            <FontAwesomeIcon
+                                                icon={faExchangeAlt}
+                                                className="text-amber-500 text-lg mb-2"
+                                            />
+                                            <span className="text-sm font-medium">Изменить статус</span>
+                                        </button>
+                                        <button className="hidden bg-white/80 hover:bg-white p-3 rounded-lg flex flex-col items-center justify-center transition-colors">
+                                            <FontAwesomeIcon
+                                                icon={faCog}
+                                                className="text-gray-500 text-lg mb-2"
+                                            />
+                                            <span className="text-sm font-medium">Настройки</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </SectionCard>
+                        )}
+
                         {product.owner_id && product.owner_details && (
                             <SectionCard title="Текущий владелец">
                                 <CurrentOwner
@@ -127,9 +175,9 @@ const ProductPage = () => {
                             </div>
                         </SectionCard>
 
-                        { product.price_history && product.price_history.length > 1 &&
+                        { product.price_history && product.price_history.filter(item => item.price > 0).length > 1 &&
                             <SectionCard title="История цены">
-                                <PriceHistoryChart data={product.price_history}/>
+                                <PriceHistoryChart data={product.price_history.filter(item => item.price > 0)}/>
                             </SectionCard>
                         }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { Product, ProductDetails } from "../types/product";
 import {getProductByAlias, updateProduct} from "../services/products.service";
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFileExport, faSave} from '@fortawesome/free-solid-svg-icons';
 import { ErrorCard, LoadingCard, WarningCard } from "../components/common/StatusCards";
@@ -741,7 +741,13 @@ const EditProductPage = () => {
 
             {/* Закрепленная кнопка внизу экрана */}
             <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-4 shadow-md">
-                <div className="max-w-5xl mx-auto flex justify-end">
+                <div className="max-w-5xl mx-auto flex justify-between">
+                    <Link
+                        to={`/product/${product.alias}`}
+                        className="inline-flex items-center px-6 py-3 border border-gray-300 text-sm font-medium rounded-full shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                    >
+                        Вернуться к продукту
+                    </Link>
                     <button
                         type="submit"
                         form="product-form"
