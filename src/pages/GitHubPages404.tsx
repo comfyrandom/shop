@@ -31,7 +31,7 @@ const GithubPages404: React.FC = () => {
                 <Link to={'/registration'} className="text-[#666666] font-[200] text-[14px] mx-[10px]">Registration</Link>
             </div>
 
-            <a href="/" className="inline-block mt-[35px]">
+            <a href="https://github.io/" className="inline-block mt-[35px]">
                 <img
                     width="32"
                     height="32"
@@ -42,7 +42,7 @@ const GithubPages404: React.FC = () => {
                 />
             </a>
 
-            <a href="/" className="inline-block mt-[35px] hidden">
+            <a href="https://github.io/" className="inline-block mt-[35px] hidden">
                 <img
                     width="64"
                     height="64"
