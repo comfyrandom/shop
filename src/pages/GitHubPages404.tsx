@@ -28,7 +28,7 @@ const GithubPages404: React.FC = () => {
                 <a href="https://githubstatus.com" className="text-[#666666] font-[200] text-[14px] mx-[10px]">GitHub Status</a> —
                 <a href="https://twitter.com/githubstatus" className="text-[#666666] font-[200] text-[14px] mx-[10px]">@githubstatus</a> —
                 <Link to={'/login'} className="text-[#666666] font-[200] text-[14px] mx-[10px]">Login</Link> —
-                <Link to={'/registration'} className="text-[#666666] font-[200] text-[14px] mx-[10px]">Registration</Link>
+                <Link to={'/register'} className="text-[#666666] font-[200] text-[14px] mx-[10px]">Registration</Link>
             </div>
 
             <a href="https://github.io/" className="inline-block mt-[35px]">
