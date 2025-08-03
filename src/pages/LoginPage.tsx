@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle, faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {signInWithEmail} from "../services/auth.service.ts";
 
 const LoginPage = () => {
+
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -21,6 +23,8 @@ const LoginPage = () => {
         }
 
         setIsLoading(false);
+        navigate('/');
+        window.location.reload();
     };
 
     return (

@@ -4,7 +4,6 @@ import { supabase } from "../services/supabase.client.ts";
 import { AuthContext } from "./AuthContext.tsx";
 import type { UserEssentials } from "../types/userProfile.ts";
 import { getUserEssentials } from "../services/users.service.ts";
-import {broadcastService} from "../services/broadcast.service.ts";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
@@ -50,7 +49,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 setEssentials(null);
 
             setInitialized(true);
-            broadcastService.setCurrentUser(currentUser?.id ?? null);
         });
 
         return () => {
