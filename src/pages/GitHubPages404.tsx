@@ -18,7 +18,7 @@ const GithubPages404: React.FC = () => {
         <p className="text-[rgba(0,0,0,0.5)] my-[20px] leading-[1.6]">
             If you're trying to publish one,
             <a href="https://help.github.com/pages/" className="text-[#4183c4] no-underline hover:underline">
-                 read the full documentation
+                &nbsp;read the full documentation&nbsp;
             </a>
             to learn how to set up <strong>GitHub Pages </strong>
             for your repository, organization, or user account.
