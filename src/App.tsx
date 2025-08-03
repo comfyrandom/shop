@@ -19,8 +19,8 @@ import InviteCodePage from "./pages/InviteCodePage.tsx";
 import ChatPage from "./pages/ChatPage.tsx";
 import {useEffect, useState} from "react";
 import {isAuthenticated} from "./services/auth.service.ts";
-import NotFoundPage from "./pages/NotFoundPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
+import GitHubPages404 from "./pages/GitHubPages404.tsx";
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);
@@ -39,7 +39,7 @@ function App() {
             <HashRouter>
                 <AuthProvider>
                     <Routes>
-                        <Route path="*" element={ <NotFoundPage />} />
+                        <Route path="*" element={ <GitHubPages404 /> } />
                         <Route path="/register" element={ <RegisterPage />} />
                         <Route path="/login" element={ <LoginPage /> } />
                     </Routes>
