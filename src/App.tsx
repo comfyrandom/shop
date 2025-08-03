@@ -17,8 +17,37 @@ import PurchaseConfirmation from "./pages/PurchaseConfirmation.tsx";
 import EditProfilePage from "./pages/EditProfilePage.tsx";
 import InviteCodePage from "./pages/InviteCodePage.tsx";
 import ChatPage from "./pages/ChatPage.tsx";
+import {useEffect, useState} from "react";
+import {isAuthenticated} from "./services/auth.service.ts";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
 
 function App() {
+    const [isAuth, setIsAuth] = useState(false);
+
+    useEffect(() => {
+        async function checkAuth() {
+            const auth = await isAuthenticated();
+            setIsAuth(auth);
+        }
+
+        checkAuth();
+    }, [])
+
+    if (!isAuth) {
+        return (
+            <HashRouter>
+                <AuthProvider>
+                    <Routes>
+                        <Route path="*" element={ <NotFoundPage />} />
+                        <Route path="/register" element={ <RegisterPage />} />
+                        <Route path="/login" element={ <LoginPage /> } />
+                    </Routes>
+                </AuthProvider>
+            </HashRouter>
+        )
+    }
+
     return (
         <HashRouter>
             <AuthProvider>

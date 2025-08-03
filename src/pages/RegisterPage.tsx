@@ -161,12 +161,8 @@ const RegisterPage = () => {
     return (
         <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
             <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 bg-clip-text bg-gradient-to-r">
-                Регистрация в <span className="text-red-600">Рос</span><span className="text-blue-600">Шкур</span>
+                Регистрация
             </h1>
-
-            <p className="text-gray-600 mb-6 text-center">
-                Заполните форму, чтобы получить доступ к эксклюзивным возможностям
-            </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
