@@ -55,6 +55,43 @@ export const getProductEssentials = async (): Promise<ProductEssentials[]> => {
     }));
 };
 
+export const getProductEssentialsByOwnerId = async (ownerId: string): Promise<(ProductEssentials & { isWorn: boolean })[]> => {
+    const { data, error } = await supabase
+        .from("products")
+        .select(`
+            id,
+            name,
+            picture,
+            owner_details:user_details!products_owner_id_fkey1 (name, alias, wearing_id),
+            alias
+        `)
+        .eq("owner_id", ownerId);
+
+    if (error) {
+        console.error(error);
+        return [];
+    }
+
+    if (!data) {
+        return [];
+    }
+
+    const transformedData = data.map((product) => ({
+        ...product,
+        // @ts-expect-error: Приведение типов пройдет нормально
+        isWorn: product.owner_details?.wearing_id === product.id
+    }));
+
+    transformedData.sort((a, b) => {
+        if (a.isWorn && !b.isWorn) return -1;
+        if (!a.isWorn && b.isWorn) return 1;
+        return 0;
+    });
+
+    // @ts-expect-error: Конвертация типов будет правильной
+    return transformedData;
+};
+
 
 export const getProductById = async (id: number): Promise<(Product & ProductDetails) | undefined> => {
     const { data, error } = await supabase

@@ -20,6 +20,7 @@ import {useEffect, useState} from "react";
 import {isAuthenticated} from "./services/auth.service.ts";
 import LoginPage from "./pages/LoginPage.tsx";
 import GitHubPages404 from "./pages/GitHubPages404.tsx";
+import RevelationsPage from "./pages/RevelationsPage.tsx";
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);
@@ -72,6 +73,7 @@ function App() {
                     <Route path="/confirm-purchase/:productAlias" element={<PurchaseConfirmation />} />
                     <Route path="/editProfile/:alias" element={<EditProfilePage />} />
                     <Route path="/invites" element={<InviteCodePage />} />
+                    <Route path="/revelations" element={<RevelationsPage />} />
                 </Routes>
                 </div>
                 <ToastContainer />
