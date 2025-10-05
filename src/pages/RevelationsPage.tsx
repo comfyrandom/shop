@@ -13,6 +13,7 @@ import { getProductEssentialsByOwnerId } from "../services/products.service.ts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import AccountPickerPopup from "../components/revelations/AccountPickerPopup.tsx";
+import FileUploadWidget from "../components/common/FileUploadWidget.tsx";
 
 export interface AccountForComment {
     id: number;
@@ -137,6 +138,13 @@ const RevelationsPage = () => {
         }));
     };
 
+    const handleFileUploadComplete = (fileUrl: string) => {
+        setFormData(prev => ({
+            ...prev,
+            media: fileUrl
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -240,14 +248,32 @@ const RevelationsPage = () => {
                             className="w-full px-0 py-1 border-0 focus:outline-none focus:ring-0 text-gray-600 placeholder-gray-400 text-sm"
                         />
 
-                        <input
-                            type="url"
-                            name="media"
-                            value={formData.media}
-                            onChange={handleInputChange}
-                            placeholder="🔗 Добавьте ссылку на изображение или видео"
-                            className="w-full px-0 py-1 border-0 focus:outline-none focus:ring-0 text-gray-600 placeholder-gray-400 text-sm"
-                        />
+                        {/* Виджет загрузки файлов */}
+                        <div className="border-t border-gray-100 pt-3">
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Медиафайл
+                            </label>
+                            <FileUploadWidget
+                                bucketName={'user_content'}
+                                onUploadComplete={handleFileUploadComplete}
+                                maxFileSize={1024 * 1024}
+                            />
+
+                            {/* Поле для ручного ввода ссылки */}
+                            {formData.media && (
+                                <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                                    <p className="text-sm text-green-600 mb-1">Файл загружен успешно!</p>
+                                    <input
+                                        type="url"
+                                        name="media"
+                                        value={formData.media}
+                                        onChange={handleInputChange}
+                                        placeholder="Или введите ссылку вручную"
+                                        className="w-full px-2 py-1 border border-gray-300 rounded text-gray-600 placeholder-gray-400 text-sm"
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100">
