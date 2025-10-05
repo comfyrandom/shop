@@ -348,11 +348,13 @@ export const RevelationsPost = ({post, canComment, onLike, onDeletePost, account
                                     const canDelete = canDeleteComment(comment.user_id);
                                     return (
                                         <div key={comment.id} className="flex space-x-3 mb-6 last:mb-0 group">
-                                            <img
-                                                src={comment.user.picture}
-                                                alt={comment.user.name}
-                                                className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                                            />
+                                            <Link to={`/product/${comment.user.alias}`}>
+                                                <img
+                                                    src={comment.user.picture}
+                                                    alt={comment.user.name}
+                                                    className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                                                />
+                                            </Link>
                                             <div className="flex-1 min-w-0">
                                                 <div className="flex items-center justify-between mb-2">
                                                     <div className="flex items-center space-x-2">
